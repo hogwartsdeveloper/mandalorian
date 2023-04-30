@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, ElementRef, HostListener, ViewChild} from '@angular/core';
 import * as THREE from 'three';
 import {skyFragmentShader, skyVertexShader} from "./models/three.model";
+import {PlayerService} from "./services/player.service";
 
 @Component({
   selector: 'app-root',
@@ -20,13 +21,6 @@ export class AppComponent implements AfterViewInit {
   hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
   dirLight = new THREE.DirectionalLight( 0xffffff, 1 );
   clock = new THREE.Clock();
-  keys = {
-    space: false
-  }
-  player: THREE.Mesh;
-  velocity = 0;
-  position = new THREE.Vector3(0, -30, 0);
-
   @HostListener('window:resize', ['$event'])
   resize() {
     this.camera.aspect = window.innerWidth / window.innerHeight;
@@ -35,24 +29,7 @@ export class AppComponent implements AfterViewInit {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
-  @HostListener('document:keydown', ['$event'])
-  onKeyDown(event: KeyboardEvent) {
-    switch (event.keyCode) {
-      case 32:
-        this.keys.space = true;
-        break;
-    }
-  }
-
-  @HostListener('document:keyup', ['$event'])
-  onKeyUp(event: KeyboardEvent) {
-    switch (event.keyCode) {
-      case 32:
-        this.keys.space = false;
-        break;
-    }
-  }
-
+  constructor(private playerService: PlayerService) {}
   ngAfterViewInit() {
     this.renderer = new THREE.WebGLRenderer({ antialias: true, canvas: this.canvas.nativeElement });
     this.renderer.setPixelRatio(window.devicePixelRatio);
@@ -67,7 +44,7 @@ export class AppComponent implements AfterViewInit {
     this.setLight();
     this.setGround();
     this.setSky();
-    this.setPlayer();
+    this.playerService.init(this.scene);
     this.animate();
   }
 
@@ -134,37 +111,6 @@ export class AppComponent implements AfterViewInit {
     this.scene.add( sky );
   }
 
-  setPlayer() {
-    this.player = new THREE.Mesh(
-        new THREE.BoxGeometry(5, 5, 5),
-        new THREE.MeshStandardMaterial({
-          color: 0x80ff80
-        })
-    );
-    this.player.position.y = -30;
-    this.player.castShadow = true;
-    this.player.receiveShadow = true;
-
-    this.scene.add(this.player);
-  }
-
-  updatePlayer(time: number) {
-    if (this.keys.space && this.position.y === -30) {
-      this.velocity = 30;
-    }
-
-    const acceleration = -75 * time;
-    this.position.y += time * (this.velocity + acceleration * 0.5);
-    this.position.y = Math.max(this.position.y, -30);
-
-    this.velocity += acceleration;
-    this.velocity = Math.max(this.velocity, -100);
-
-    if (this.player) {
-      this.player.position.copy(this.position);
-    }
-  }
-
   animate() {
     const animation = () => {
       this.render();
@@ -175,7 +121,7 @@ export class AppComponent implements AfterViewInit {
 
   render() {
     const delta = this.clock.getDelta();
-    this.updatePlayer(delta)
+    this.playerService.update(delta);
     this.renderer.render(this.scene, this.camera);
   }
 }
