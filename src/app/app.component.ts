@@ -2,6 +2,7 @@ import {AfterViewInit, Component, ElementRef, HostListener, ViewChild} from '@an
 import * as THREE from 'three';
 import {skyFragmentShader, skyVertexShader} from "./models/three.model";
 import {PlayerService} from "./services/player.service";
+import {WorldManagerService} from "./services/world-manager.service";
 
 @Component({
   selector: 'app-root',
@@ -29,7 +30,10 @@ export class AppComponent implements AfterViewInit {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
-  constructor(private playerService: PlayerService) {}
+  constructor(
+      private playerService: PlayerService,
+      private worldManager: WorldManagerService
+  ) {}
   ngAfterViewInit() {
     this.renderer = new THREE.WebGLRenderer({ antialias: true, canvas: this.canvas.nativeElement });
     this.renderer.setPixelRatio(window.devicePixelRatio);
@@ -122,6 +126,7 @@ export class AppComponent implements AfterViewInit {
   render() {
     const delta = this.clock.getDelta();
     this.playerService.update(delta);
+    this.worldManager.update(this.scene, delta);
     this.renderer.render(this.scene, this.camera);
   }
 }
