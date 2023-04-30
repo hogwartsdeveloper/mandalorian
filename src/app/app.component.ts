@@ -22,6 +22,7 @@ export class AppComponent implements AfterViewInit {
   hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
   dirLight = new THREE.DirectionalLight( 0xffffff, 1 );
   clock = new THREE.Clock();
+  score = '00000'
   @HostListener('window:resize', ['$event'])
   resize() {
     this.camera.aspect = window.innerWidth / window.innerHeight;
@@ -127,6 +128,7 @@ export class AppComponent implements AfterViewInit {
     const delta = this.clock.getDelta();
     this.playerService.update(delta);
     this.worldManager.update(this.scene, delta);
+    this.score = this.worldManager.updateScore(delta);
     this.renderer.render(this.scene, this.camera);
   }
 }

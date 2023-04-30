@@ -10,6 +10,7 @@ export class WorldManagerService {
   speed = 10;
   START_POS = 120;
   SEPARATION_DISTANCE = 20;
+  score = 0;
 
   spawnObj(scene: THREE.Scene) {
     const obj = new THREE.Mesh(
@@ -58,5 +59,11 @@ export class WorldManagerService {
 
     this.objects = visible;
     this.unused.push(...invisible);
+  }
+
+  updateScore(time: number) {
+    this.score += time * 10;
+    return Math.round(this.score).toLocaleString(
+        'en-US', {minimumIntegerDigits: 5, useGrouping: false});
   }
 }
