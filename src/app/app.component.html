@@ -4,5 +4,26 @@
             <div class="score-text">{{ score }}</div>
         </div>
     </div>
+
+    <div *ngIf="gameOver" class="ui">
+        <div class="game-over-layout">
+            <div class="game-over-text">GAME OVER</div>
+        </div>
+    </div>
+
+    <div *ngIf="!gameStarted" class="ui">
+        <div class="game-menu-layout" (click)="onStart()">
+            <div class="game-menu-window">
+<!--                <img src="./raptor.png" />-->
+                <h1>No internet</h1>
+                <p>Try:</p>
+                <li>Checking the network cables, modem, and router</li>
+                <li>Reconnecting to Wi-Fi</li>
+                <li>Running Windows Network Diagnostics</li>
+                <p id="error">ERR_INTERNET_DISCONNECTED</p>
+            </div>
+        </div>
+    </div>
+
+    <canvas #main></canvas>
 </div>
-<canvas #main></canvas>
