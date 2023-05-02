@@ -14,7 +14,7 @@ export class BackgroundCloud {
 
     loadModel() {
         const loader = new GLTFLoader();
-        loader.setPath('assets/clouds/');
+        loader.setPath('/assets/clouds/');
         loader.load('Cloud' + math.randInt(1, 3) + '.glb', (glb) => {
             this.mesh = glb.scene;
             this.params.scene.add(this.mesh);
@@ -44,9 +44,16 @@ export class BackgroundCloud {
 
                 for (let material of materials) {
                     // @ts-ignore
-                    material.specular = new THREE.Color(0x000000);
+                    if (material?.specular) {
+                        // @ts-ignore
+                        material.specular = new THREE.Color(0x000000);
+                    }
                     // @ts-ignore
-                    material.emissive = new THREE.Color(0xC0C0C0);
+                    if (material?.emissive) {
+                        // @ts-ignore
+                        material.emissive = new THREE.Color(0xC0C0C0);
+                    }
+                    // @ts-ignore
                 }
 
                 el.castShadow = true;

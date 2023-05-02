@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, ElementRef, HostListener, ViewChild} from '@angular/core';
 import * as THREE from 'three';
 import {pcss, pcssGetShadow, skyFragmentShader, skyVertexShader} from "./models/three.model";
+import {Background} from "./utils/background";
 
 @Component({
   selector: 'app-root',
@@ -21,6 +22,7 @@ export class AppComponent implements AfterViewInit {
   gameOver = false;
   previousTime: number;
   score = '00000'
+  background: Background;
 
   @HostListener('window:resize', ['$event'])
   resize() {
@@ -55,6 +57,8 @@ export class AppComponent implements AfterViewInit {
 
     this.renderer = new THREE.WebGLRenderer({ antialias: true, canvas: this.canvas.nativeElement });
     this.renderer.outputEncoding = THREE.sRGBEncoding;
+    // @ts-ignore
+    this.renderer.gammaFactor = 2.2;
     this.renderer.shadowMap.enabled = true;
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -64,6 +68,8 @@ export class AppComponent implements AfterViewInit {
 
     this.scene.background = new THREE.Color(0x808080);
     this.scene.fog = new THREE.FogExp2(0x89b2eb, 0.00125);
+
+    this.background = new Background({ scene: this.scene });
   }
 
   setLight() {
@@ -139,5 +145,7 @@ export class AppComponent implements AfterViewInit {
     if (this.gameOver || !this.gameStarted) {
       return
     }
+
+    this.background.update(timeElapsed);
   }
 }

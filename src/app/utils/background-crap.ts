@@ -10,6 +10,7 @@ export class BackgroundCrap {
 
     constructor(params: any) {
         this.params = params;
+        this.loadModel();
     }
 
     loadModel() {
@@ -27,11 +28,11 @@ export class BackgroundCrap {
 
         const [asset, textureName, scale] = assets[math.randInt(0, assets.length - 1)];
         const textLoader = new THREE.TextureLoader();
-        const texture = textLoader.load('assets/textures' + textureName);
+        const texture = textLoader.load('/assets/textures' + textureName);
         texture.encoding = THREE.sRGBEncoding;
 
         const loader = new GLTFLoader();
-        loader.setPath('assets/models');
+        loader.setPath('/assets/models/');
         loader.load(asset as string, (glb) => {
             this.mesh = glb.scene;
             this.params.scene.add(this.mesh);
@@ -67,5 +68,20 @@ export class BackgroundCrap {
                 el.receiveShadow = true;
             })
         })
+    }
+
+    update(timeElapsed: number) {
+        if (!this.mesh) {
+            return;
+        }
+
+        this.position.x -= timeElapsed * 10;
+        if (this.position.x < -100) {
+            this.position.x = math.randRange(2000, 3000);
+        }
+
+        this.mesh.position.copy(this.position);
+        this.mesh.quaternion.copy(this.quaternion);
+        this.mesh.scale.setScalar(this.scale);
     }
 }
