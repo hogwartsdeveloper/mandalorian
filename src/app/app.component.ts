@@ -2,6 +2,8 @@ import {AfterViewInit, Component, ElementRef, HostListener, ViewChild} from '@an
 import * as THREE from 'three';
 import {pcss, pcssGetShadow, skyFragmentShader, skyVertexShader} from "./models/three.model";
 import {Background} from "./utils/background";
+import {WorldManager} from "./utils/world-manager";
+import {Player} from "./utils/player";
 
 @Component({
   selector: 'app-root',
@@ -23,6 +25,8 @@ export class AppComponent implements AfterViewInit {
   previousTime: number;
   score = '00000'
   background: Background;
+  world: WorldManager;
+  player: Player;
 
   @HostListener('window:resize', ['$event'])
   resize() {
@@ -69,6 +73,8 @@ export class AppComponent implements AfterViewInit {
     this.scene.background = new THREE.Color(0x808080);
     this.scene.fog = new THREE.FogExp2(0x89b2eb, 0.00125);
 
+    this.world = new WorldManager({ scene: this.scene });
+    this.player = new Player({ scene: this.scene, world: this.world });
     this.background = new Background({ scene: this.scene });
   }
 
