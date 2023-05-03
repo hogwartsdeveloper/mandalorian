@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import {math} from "./math";
 import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader";
+
 export class BackgroundCrap {
     position = new THREE.Vector3();
     quaternion = new THREE.Quaternion();
@@ -48,24 +49,13 @@ export class BackgroundCrap {
 
             this.mesh.traverse(item => {
                 const el = item as THREE.Mesh;
-                let materials;
-                if (!(el.material instanceof Array)) {
-                    materials = [el.material];
-                } else {
-                    materials = el.material;
+                if (el.isMesh) {
+                    el.material = new THREE.MeshPhongMaterial(
+                        {map: texture, specular: new THREE.Color(0x000000)}
+                    );
+                    el.castShadow = true;
+                    el.receiveShadow = true;
                 }
-
-                for (let material of materials) {
-                    if (texture) {
-                        // @ts-ignore
-                        material.map = texture
-                    }
-                    // @ts-ignore
-                    material.specular = new THREE.Color(0x000000);
-                }
-
-                el.castShadow = true;
-                el.receiveShadow = true;
             })
         })
     }
