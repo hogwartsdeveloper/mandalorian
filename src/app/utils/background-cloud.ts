@@ -35,25 +35,11 @@ export class BackgroundCloud {
                     el.geometry.computeBoundingBox();
                 }
 
-                let materials: THREE.Material[];
-                if (!(el.material instanceof Array)) {
-                    materials = [el.material];
-                } else {
-                    materials = el.material;
-                }
-
-                for (let material of materials) {
-                    // @ts-ignore
-                    if (material?.specular) {
-                        // @ts-ignore
-                        material.specular = new THREE.Color(0x000000);
-                    }
-                    // @ts-ignore
-                    if (material?.emissive) {
-                        // @ts-ignore
-                        material.emissive = new THREE.Color(0xC0C0C0);
-                    }
-                    // @ts-ignore
+                if (el.isMesh) {
+                    el.material = new THREE.MeshPhongMaterial({
+                        specular: new THREE.Color(0x000000),
+                        emissive: new THREE.Color(0xC0C0C0)
+                    });
                 }
 
                 el.castShadow = true;
