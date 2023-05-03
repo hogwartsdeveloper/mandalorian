@@ -19,7 +19,6 @@ export class BackgroundCrap {
             ['SmallPalmTree.glb', 'PalmTree.png', 3],
             ['BigPalmTree.glb', 'PalmTree.png', 5],
             ['Skull.glb', 'Ground.png', 1],
-            ['Scorpion.glb', 'Scorpion.png', 1],
             ['Pyramid.glb', 'Ground.png', 40],
             ['Monument.glb', 'Ground.png', 10],
             ['Cactus1.glb', 'Ground.png', 5],
@@ -29,7 +28,7 @@ export class BackgroundCrap {
 
         const [asset, textureName, scale] = assets[math.randInt(0, assets.length - 1)];
         const textLoader = new THREE.TextureLoader();
-        const texture = textLoader.load('/assets/textures' + textureName);
+        const texture = textLoader.load('/assets/textures/' + textureName);
         texture.encoding = THREE.sRGBEncoding;
 
         const loader = new GLTFLoader();
