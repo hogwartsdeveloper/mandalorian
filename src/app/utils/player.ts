@@ -37,18 +37,11 @@ export class Player {
             fbx.traverse(obj => {
                 const item = obj as THREE.Mesh;
 
-                let materials;
-                if (!(item.material instanceof Array)) {
-                    materials = [item.material];
-                } else {
-                    materials = item.material;
-                }
-
-                for (let material of materials) {
-                    // @ts-ignore
-                    material.specular = new THREE.Color(0x000000);
-                    // @ts-ignore
-                    material.color.offsetHSL(0, 0, 0.25);
+                if (item.isMesh) {
+                    for (let material of item.material as THREE.MeshPhongMaterial[]) {
+                        material.specular = new THREE.Color(0x000000);
+                        material.color.offsetHSL(0, 0, 0.25);
+                    }
                 }
 
                 item.castShadow = true;
