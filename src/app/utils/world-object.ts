@@ -32,24 +32,13 @@ export class WorldObject {
                     item.geometry.computeBoundingBox();
                 }
 
-                let materials;
-                if (!(item.material instanceof Array)) {
-                    materials = [item.material];
-                } else {
-                    materials = item.material;
+                if (item.isMesh) {
+                    item.material = new THREE.MeshPhongMaterial(
+                        {map: texture, specular: new THREE.Color(0x000000)}
+                    )
+                    item.castShadow = true;
+                    item.receiveShadow = true;
                 }
-
-                for (let material of materials) {
-                    if (texture) {
-                        // @ts-ignore
-                        material.map = texture
-                    }
-                    // @ts-ignore
-                    material.specular = new THREE.Color(0x000000);
-                }
-
-                item.castShadow = true;
-                item.receiveShadow = true;
             })
         })
     }
