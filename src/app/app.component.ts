@@ -151,7 +151,12 @@ export class AppComponent implements AfterViewInit {
     if (this.gameOver || !this.gameStarted) {
       return
     }
-
+    this.player.update(timeElapsed);
+    this.world.update(timeElapsed);
     this.background.update(timeElapsed);
+
+    if (this.player.gameOver && !this.gameOver) {
+      this.gameOver = true;
+    }
   }
 }
