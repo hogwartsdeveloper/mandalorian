@@ -12,6 +12,7 @@ import {Player} from "./utils/player";
 })
 export class AppComponent implements AfterViewInit {
   @ViewChild('main') canvas: ElementRef<HTMLCanvasElement>
+  @ViewChild('audio') audio: ElementRef<HTMLAudioElement>
   renderer: THREE.WebGLRenderer;
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(
@@ -132,12 +133,15 @@ export class AppComponent implements AfterViewInit {
 
   onStart() {
     this.gameStarted = true;
+    this.audio.nativeElement.volume = 0.19
+    this.audio.nativeElement.play();
   }
 
   onRestart() {
     this.world.restart();
     this.gameOver = false;
     this.player.gameOver = false;
+    this.audio.nativeElement.currentTime = 0;
   }
 
   animate() {
