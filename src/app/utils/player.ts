@@ -13,7 +13,7 @@ export class Player {
         space: false
     }
     oldKeys = { ...this.keys }
-    gameOver = true;
+    gameOver = false;
 
     constructor(params: any) {
         this.params = params;

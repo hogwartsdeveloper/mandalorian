@@ -70,6 +70,7 @@ export class WorldManager {
 
     update(timeElapsed: number) {
         this.maybeSpawn();
+        this.updateColliders(timeElapsed);
         this.updateScore(timeElapsed);
     }
 
