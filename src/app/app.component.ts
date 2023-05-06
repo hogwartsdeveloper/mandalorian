@@ -134,6 +134,12 @@ export class AppComponent implements AfterViewInit {
     this.gameStarted = true;
   }
 
+  onRestart() {
+    this.world.restart();
+    this.gameOver = false;
+    this.player.gameOver = false;
+  }
+
   animate() {
     const animation = (time: number) => {
       if (!this.previousTime) {

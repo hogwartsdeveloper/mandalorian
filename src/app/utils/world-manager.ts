@@ -6,12 +6,12 @@ const START_POS = 100;
 const SEPARATION_DISTANCE = 20;
 
 export class WorldManager {
-    objects: any[] = [];
-    unused: any[] = [];
-    speed = 12;
-    params: any;
-    score = 0;
-    separationDistance = SEPARATION_DISTANCE;
+    private objects: any[] = [];
+    private unused: any[] = [];
+    private speed = 12;
+    private params: any;
+    private score = 0;
+    private separationDistance = SEPARATION_DISTANCE;
 
     constructor(params: any) {
         this.params = params;
@@ -100,5 +100,11 @@ export class WorldManager {
         this.unused.push(...invisible);
     }
 
-
+    restart() {
+        this.objects.forEach(obj => {
+            this.params.scene.remove(obj.mesh);
+        });
+        this.objects = [];
+        this.score = 0;
+    }
 }
