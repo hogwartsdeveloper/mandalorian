@@ -153,6 +153,7 @@ export class AppComponent implements AfterViewInit {
     }
     this.player.update(timeElapsed);
     this.world.update(timeElapsed);
+    this.score = this.world.updateScore(timeElapsed);
     this.background.update(timeElapsed);
 
     if (this.player.gameOver && !this.gameOver) {

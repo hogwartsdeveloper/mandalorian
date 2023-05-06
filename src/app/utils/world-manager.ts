@@ -11,7 +11,6 @@ export class WorldManager {
     speed = 12;
     params: any;
     score = 0;
-    scoreText = '00000';
     separationDistance = SEPARATION_DISTANCE;
 
     constructor(params: any) {
@@ -71,7 +70,6 @@ export class WorldManager {
     update(timeElapsed: number) {
         this.maybeSpawn();
         this.updateColliders(timeElapsed);
-        this.updateScore(timeElapsed);
     }
 
     updateScore(timeElapsed: number) {

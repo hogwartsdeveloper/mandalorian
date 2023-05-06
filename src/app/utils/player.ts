@@ -2,17 +2,16 @@ import * as THREE from 'three';
 import {FBXLoader} from "three/examples/jsm/loaders/FBXLoader";
 
 export class Player {
-    position = new THREE.Vector3(0, 0, 0);
-    velocity = 0.0;
-    playerBox = new THREE.Box3();
-    params: any;
-    mesh: THREE.Group;
-    mixer: THREE.AnimationMixer;
-    keys = {
+    private position = new THREE.Vector3(0, 0, 0);
+    private velocity = 0.0;
+    private playerBox = new THREE.Box3();
+    private params: any;
+    private mesh: THREE.Group;
+    private mixer: THREE.AnimationMixer;
+    private keys = {
         spaceBar: false,
         space: false
     }
-    oldKeys = { ...this.keys }
     gameOver = false;
 
     constructor(params: any) {
