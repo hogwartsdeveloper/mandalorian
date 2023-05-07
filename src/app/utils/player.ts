@@ -1,12 +1,15 @@
 import * as THREE from 'three';
 import {FBXLoader} from "three/examples/jsm/loaders/FBXLoader";
+import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader";
 
 export class Player {
     private position = new THREE.Vector3(0, 0, 0);
+    private position2 = new THREE.Vector3(0, 0, 1);
     private velocity = 0.0;
     private playerBox = new THREE.Box3();
     private params: any;
     private mesh: THREE.Group;
+    private grogu: THREE.Group;
     private mixer: THREE.AnimationMixer;
     private keys = {
         spaceBar: false,
@@ -18,14 +21,15 @@ export class Player {
         this.params = params;
 
         this.loadModel();
+        this.loadGrogu();
         this.initInput();
     }
 
     loadModel() {
         const loader = new FBXLoader();
         loader.setPath('/assets/models/');
-        loader.load('Velociraptor.fbx', (fbx) => {
-            fbx.scale.setScalar(0.0025);
+        loader.load('mandalorian.fbx', (fbx) => {
+            fbx.scale.setScalar(0.0150);
             fbx.quaternion.setFromAxisAngle(
                 new THREE.Vector3(0, 1, 0), Math.PI / 2
             );
@@ -36,13 +40,6 @@ export class Player {
             fbx.traverse(obj => {
                 const item = obj as THREE.Mesh;
 
-                if (item.isMesh) {
-                    for (let material of item.material as THREE.MeshPhongMaterial[]) {
-                        material.specular = new THREE.Color(0x000000);
-                        material.color.offsetHSL(0, 0, 0.25);
-                    }
-                }
-
                 item.castShadow = true;
                 item.receiveShadow = true;
             });
@@ -50,13 +47,36 @@ export class Player {
             this.mixer = new THREE.AnimationMixer(fbx);
 
             for (let i = 0; i < fbx.animations.length; ++i) {
-                if (fbx.animations[i].name.includes('Run')) {
+                if (fbx.animations[i].name.includes('mixamo.com')) {
                     const clip = fbx.animations[i];
                     const action = this.mixer.clipAction(clip);
                     action.play();
                 }
             }
-        })
+        });
+    }
+
+    loadGrogu() {
+        const loader = new GLTFLoader();
+        loader.setPath('/assets/models/');
+        loader.load('grogu.glb', (gltf) => {
+            this.grogu = gltf.scene;
+            this.grogu.scale.setScalar(2);
+            this.grogu.position.copy(this.position2);
+            this.grogu.quaternion.setFromAxisAngle(
+                new THREE.Vector3(0, 1, 0), Math.PI / 2
+            );
+
+
+            this.params.scene.add(this.grogu);
+
+            this.grogu.traverse(obj => {
+                const item = obj as THREE.Mesh;
+
+                item.castShadow = true;
+                item.receiveShadow = true;
+            });
+        });
     }
 
     initInput() {
@@ -111,6 +131,11 @@ export class Player {
             this.mixer.update(timeElapsed);
             this.mesh.position.copy(this.position);
             this.checkCollisions();
+        }
+
+        if (this.grogu) {
+            this.position2.y = this.position.y;
+            this.grogu.position.copy(this.position2)
         }
     }
 }
