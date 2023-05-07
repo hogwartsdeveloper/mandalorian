@@ -6,8 +6,8 @@ const START_POS = 100;
 const SEPARATION_DISTANCE = 20;
 
 export class WorldManager {
-    private objects: any[] = [];
-    private unused: any[] = [];
+    private objects: WorldObject[] = [];
+    private unused: WorldObject[] = [];
     private speed = 12;
     private params: any;
     private separationDistance = SEPARATION_DISTANCE;
@@ -29,10 +29,10 @@ export class WorldManager {
     }
 
     spawnObj(scale: any, offset: any) {
-        let obj = null;
+        let obj: WorldObject;
 
         if (this.unused.length > 0) {
-            obj = this.unused.pop();
+            obj = this.unused.pop() as WorldObject;
             obj.mesh.visible = true;
         } else {
             obj = new WorldObject(this.params);
@@ -72,8 +72,8 @@ export class WorldManager {
     }
 
     updateColliders(timeElapsed: number) {
-        const invisible = [];
-        const visible = [];
+        const invisible: WorldObject[] = [];
+        const visible: WorldObject[] = [];
 
         for (let obj of this.objects) {
             obj.position.x -= timeElapsed * this.speed;

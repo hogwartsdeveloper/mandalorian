@@ -1,33 +1,37 @@
-<div class="container">
-    <div class="ui">
-        <div class="score-layout">
-            <div class="max" *ngIf="maxScore">HI&nbsp;{{ maxScore | score }}</div>
-            <div *ngIf="score">{{ score | score }}</div>
-        </div>
-    </div>
-
-    <div *ngIf="gameOver" class="ui">
-        <div class="game-over-layout" (click)="onRestart()">
-            <div class="game-over-text">GAME OVER</div>
-            <img class="return" src="/assets/img/return.png">
-        </div>
-    </div>
-
-    <div *ngIf="!gameStarted" class="ui">
-        <div class="game-menu-layout" (click)="onStart()">
-            <div class="game-menu-window">
-                <img src="/assets/img/mandalorian.svg" />
-                <h1>No internet</h1>
-                <p>Try:</p>
-                <li>Checking the network cables, modem, and router</li>
-                <li>Reconnecting to Wi-Fi</li>
-                <li>Running Windows Network Diagnostics</li>
-                <p id="error">ERR_INTERNET_DISCONNECTED</p>
+<div class="container" #container>
+    <ng-container *ngIf="!loading; else load" >
+        <div class="ui">
+            <div class="score-layout">
+                <div class="max" *ngIf="maxScore">HI&nbsp;{{ maxScore | score }}</div>
+                <div *ngIf="score">{{ score | score }}</div>
             </div>
         </div>
-    </div>
 
-    <canvas #main></canvas>
+        <div *ngIf="gameOver" class="ui">
+            <div class="game-over-layout" (click)="onRestart()">
+                <div class="game-over-text">GAME OVER</div>
+                <img class="return" src="/assets/img/return.png">
+            </div>
+        </div>
+
+        <div *ngIf="!gameStarted" class="ui">
+            <div class="game-menu-layout" (click)="onStart()">
+                <div class="game-menu-window">
+                    <img src="/assets/img/mandalorian.svg" />
+                    <h1>No internet</h1>
+                    <p>Try:</p>
+                    <li>Checking the network cables, modem, and router</li>
+                    <li>Reconnecting to Wi-Fi</li>
+                    <li>Running Windows Network Diagnostics</li>
+                    <p id="error">ERR_INTERNET_DISCONNECTED</p>
+                </div>
+            </div>
+        </div>
+    </ng-container>
 </div>
+
+<ng-template #load>
+    <app-loading></app-loading>
+</ng-template>
 
 <audio #audio src="/assets/sounds/mandalorian.mp3"></audio>

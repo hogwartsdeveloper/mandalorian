@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, HostListener, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, ViewChild} from '@angular/core';
 import * as THREE from 'three';
 import {pcss, pcssGetShadow, skyFragmentShader, skyVertexShader} from "./models/three.model";
 import {Background} from "./utils/background";
@@ -11,9 +11,10 @@ import {ScoreService} from "./services/score.service";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements AfterViewInit {
-  @ViewChild('main') canvas: ElementRef<HTMLCanvasElement>
+export class AppComponent {
+  @ViewChild('container') main: ElementRef<HTMLDivElement>
   @ViewChild('audio') audio: ElementRef<HTMLAudioElement>
+  loading = false;
   renderer: THREE.WebGLRenderer;
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(
@@ -37,13 +38,14 @@ export class AppComponent implements AfterViewInit {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
 
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer?.setSize(window.innerWidth, window.innerHeight);
   }
 
   constructor(private scoreService: ScoreService) {
     this.maxScore = this.scoreService.getMaxScore();
   }
-  ngAfterViewInit() {
+
+  load() {
     this.init();
     this.setLight();
     this.setGround();
@@ -65,14 +67,12 @@ export class AppComponent implements AfterViewInit {
 
     THREE.ShaderChunk.shadowmap_pars_fragment = shadowCode;
 
-    this.renderer = new THREE.WebGLRenderer({ antialias: true, canvas: this.canvas.nativeElement });
+    this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.outputEncoding = THREE.sRGBEncoding;
-    // @ts-ignore
-    this.renderer.gammaFactor = 2.2;
     this.renderer.shadowMap.enabled = true;
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-
+    this.main.nativeElement.appendChild(this.renderer.domElement)
     this.camera.position.set(-5, 5, 10);
     this.camera.lookAt(8, 3, 0);
 
@@ -89,9 +89,6 @@ export class AppComponent implements AfterViewInit {
     this.hemiLight.groundColor.setHSL(0.095, 1, 0.75);
     this.hemiLight.position.set(0, 7, 0);
     this.scene.add(this.hemiLight);
-
-    const hemiLightHelper = new THREE.HemisphereLightHelper(this.hemiLight, 2);
-    this.scene.add(hemiLightHelper)
 
     const light = new THREE.DirectionalLight(0xffffff, 1);
     light.position.set(60, 100, 10);
@@ -144,9 +141,15 @@ export class AppComponent implements AfterViewInit {
   }
 
   onStart() {
-    this.gameStarted = true;
-    this.audio.nativeElement.volume = 0.19
-    this.audio.nativeElement.play();
+    this.loading = true;
+    this.load();
+    setTimeout(() => {
+      this.loading = false;
+      this.gameStarted = true;
+      this.audio.nativeElement.volume = 0.19
+      this.audio.nativeElement.play();
+    }, 4000)
+
   }
 
   onRestart() {
