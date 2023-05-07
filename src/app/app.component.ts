@@ -20,7 +20,7 @@ export class AppComponent implements AfterViewInit {
       60,
       window.innerWidth / window.innerHeight,
       1,
-      20000
+      2000
   );
   gameStarted = false;
   gameOver = false;
@@ -30,6 +30,7 @@ export class AppComponent implements AfterViewInit {
   background: Background;
   world: WorldManager;
   player: Player;
+  hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
 
   @HostListener('window:resize', ['$event'])
   resize() {
@@ -84,33 +85,37 @@ export class AppComponent implements AfterViewInit {
   }
 
   setLight() {
+    this.hemiLight.color.setHSL(0.6, 1, 0.6);
+    this.hemiLight.groundColor.setHSL(0.095, 1, 0.75);
+    this.hemiLight.position.set(0, 7, 0);
+    this.scene.add(this.hemiLight);
+
+    const hemiLightHelper = new THREE.HemisphereLightHelper(this.hemiLight, 2);
+    this.scene.add(hemiLightHelper)
+
     const light = new THREE.DirectionalLight(0xffffff, 1);
     light.position.set(60, 100, 10);
     light.target.position.set(40, 0, 0);
     light.castShadow = true;
-    light.shadow.bias = -0.001;
+    light.shadow.bias = -0.0001;
     light.shadow.mapSize.width = 4096;
     light.shadow.mapSize.height = 4096;
     light.shadow.camera.far = 200.0;
-    light.shadow.camera.near = 1.0;
+    light.shadow.camera.near = 1;
     light.shadow.camera.left = 50;
     light.shadow.camera.right = -50;
     light.shadow.camera.top = 50;
     light.shadow.camera.bottom = -50;
     this.scene.add(light);
-
-    this.scene.add(
-        new THREE.HemisphereLight(0x202020, 0x004080, 0.6)
-    )
   }
 
   setGround() {
     const ground = new THREE.Mesh(
         new THREE.PlaneGeometry(20000, 20000, 10, 10),
         new THREE.MeshStandardMaterial({
-          color: 0xf6f47f,
+          color: new THREE.Color(0xffffff).setHSL( 0.095, 1, 0.75 )
         }));
-    ground.castShadow = false;
+
     ground.receiveShadow = true;
     ground.rotation.x = -Math.PI / 2;
     this.scene.add(ground);
@@ -119,10 +124,13 @@ export class AppComponent implements AfterViewInit {
   setSky() {
     const uniforms = {
       topColor: { value: new THREE.Color(0x0077FF) },
-      bottomColor: { value: new THREE.Color(0x89b2eb) },
+      bottomColor: { value: new THREE.Color(0xffffff) },
       offset: { value: 33 },
       exponent: { value: 0.6 }
     };
+
+    uniforms[ 'topColor' ].value.copy( this.hemiLight.color );
+    this.scene.fog!.color.copy( uniforms[ 'bottomColor' ].value );
 
     const skyGeo = new THREE.SphereGeometry(1000, 32, 15);
     const skyMat = new THREE.ShaderMaterial({
