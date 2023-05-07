@@ -10,7 +10,6 @@ export class WorldManager {
     private unused: any[] = [];
     private speed = 12;
     private params: any;
-    private score = 0;
     private separationDistance = SEPARATION_DISTANCE;
 
     constructor(params: any) {
@@ -72,13 +71,6 @@ export class WorldManager {
         this.updateColliders(timeElapsed);
     }
 
-    updateScore(timeElapsed: number) {
-        this.score += timeElapsed * 10;
-        return Math.round(this.score).toLocaleString(
-            'en-US', {minimumIntegerDigits: 5, useGrouping: false}
-        );
-    }
-
     updateColliders(timeElapsed: number) {
         const invisible = [];
         const visible = [];
@@ -105,6 +97,5 @@ export class WorldManager {
             this.params.scene.remove(obj.mesh);
         });
         this.objects = [];
-        this.score = 0;
     }
 }

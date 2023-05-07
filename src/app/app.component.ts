@@ -4,6 +4,7 @@ import {pcss, pcssGetShadow, skyFragmentShader, skyVertexShader} from "./models/
 import {Background} from "./utils/background";
 import {WorldManager} from "./utils/world-manager";
 import {Player} from "./utils/player";
+import {ScoreService} from "./services/score.service";
 
 @Component({
   selector: 'app-root',
@@ -24,7 +25,8 @@ export class AppComponent implements AfterViewInit {
   gameStarted = false;
   gameOver = false;
   previousTime: number;
-  score = '00000'
+  score = 0;
+  maxScore = 0
   background: Background;
   world: WorldManager;
   player: Player;
@@ -37,7 +39,9 @@ export class AppComponent implements AfterViewInit {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
-  constructor() {}
+  constructor(private scoreService: ScoreService) {
+    this.maxScore = this.scoreService.getMaxScore();
+  }
   ngAfterViewInit() {
     this.init();
     this.setLight();
@@ -139,6 +143,7 @@ export class AppComponent implements AfterViewInit {
 
   onRestart() {
     this.world.restart();
+    this.maxScore = this.scoreService.restart();
     this.gameOver = false;
     this.player.gameOver = false;
     this.audio.nativeElement.currentTime = 0;
@@ -163,7 +168,7 @@ export class AppComponent implements AfterViewInit {
     }
     this.player.update(timeElapsed);
     this.world.update(timeElapsed);
-    this.score = this.world.updateScore(timeElapsed);
+    this.score = this.scoreService.updateScore(timeElapsed);
     this.background.update(timeElapsed);
 
     if (this.player.gameOver && !this.gameOver) {

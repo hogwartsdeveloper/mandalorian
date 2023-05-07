@@ -1,7 +1,8 @@
 <div class="container">
     <div class="ui">
         <div class="score-layout">
-            <div class="score-text">{{ score }}</div>
+            <div class="max" *ngIf="maxScore">HI&nbsp;{{ maxScore | score }}</div>
+            <div *ngIf="score">{{ score | score }}</div>
         </div>
     </div>
 

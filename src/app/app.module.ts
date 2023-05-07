@@ -2,15 +2,18 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppComponent} from './app.component';
+import { ScorePipe } from './pipes/score.pipe';
+import {ScoreService} from "./services/score.service";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ScorePipe
   ],
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [ScoreService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
