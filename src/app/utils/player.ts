@@ -11,6 +11,9 @@ export class Player {
     private mesh: THREE.Group;
     private grogu: THREE.Group;
     private mixer: THREE.AnimationMixer;
+    private animationActions: THREE.AnimationAction[] = [];
+    private activeAction: THREE.AnimationAction;
+    private lastAction: THREE.AnimationAction;
     private keys = {
         spaceBar: false,
         space: false
@@ -45,14 +48,15 @@ export class Player {
             });
 
             this.mixer = new THREE.AnimationMixer(fbx);
+            const animationAction = this.mixer.clipAction(fbx.animations[0]);
+            this.animationActions.push(animationAction);
+            this.activeAction = this.animationActions[0];
+            this.setAction(this.animationActions[0]);
 
-            for (let i = 0; i < fbx.animations.length; ++i) {
-                if (fbx.animations[i].name.includes('mixamo.com')) {
-                    const clip = fbx.animations[i];
-                    const action = this.mixer.clipAction(clip);
-                    action.play();
-                }
-            }
+            loader.load('mandalorian-jump.fbx', (fbx) => {
+                const animationAction = this.mixer.clipAction(fbx.animations[0]);
+                this.animationActions.push(animationAction);
+            })
         });
     }
 
@@ -87,13 +91,16 @@ export class Player {
     onKeyDown(event: KeyboardEvent) {
         switch (event.keyCode) {
             case 32:
+                this.setAction(this.animationActions[1]);
                 this.keys.space = true;
+
         }
     }
 
     onKeyUp(event: KeyboardEvent) {
         switch (event.keyCode) {
             case 32:
+                this.setAction(this.animationActions[0]);
                 this.keys.space = false;
         }
     }
@@ -111,9 +118,21 @@ export class Player {
         }
     }
 
+    setAction(toAction: THREE.AnimationAction) {
+        if (toAction !== this.activeAction) {
+            this.lastAction = this.activeAction;
+            this.activeAction = toAction;
+            this.lastAction.fadeOut(1);
+            this.activeAction.reset();
+            this.activeAction.fadeIn(1);
+            this.activeAction.play();
+        }
+        this.activeAction.play();
+    }
+
     update(timeElapsed: number) {
         if (this.keys.space && this.position.y == 0.0) {
-            this.velocity = 30;
+            this.velocity = 25;
         }
 
         const acceleration = -75 * timeElapsed;
