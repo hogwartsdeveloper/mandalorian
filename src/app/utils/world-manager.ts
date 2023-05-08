@@ -97,5 +97,10 @@ export class WorldManager {
             this.params.scene.remove(obj.mesh);
         });
         this.objects = [];
+        this.speed = 12;
+    }
+
+    updateSpeed(speed: number) {
+        this.speed = speed;
     }
 }

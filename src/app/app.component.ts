@@ -1,17 +1,19 @@
-import {Component, ElementRef, HostListener, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import * as THREE from 'three';
 import {pcss, pcssGetShadow, skyFragmentShader, skyVertexShader} from "./models/three.model";
 import {Background} from "./utils/background";
 import {WorldManager} from "./utils/world-manager";
 import {Player} from "./utils/player";
 import {ScoreService} from "./services/score.service";
+import {Subject, takeUntil} from "rxjs";
+import {LevelService} from "./services/level.service";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
   @ViewChild('container') main: ElementRef<HTMLDivElement>
   @ViewChild('audio') audio: ElementRef<HTMLAudioElement>
   loading = false;
@@ -32,6 +34,7 @@ export class AppComponent {
   world: WorldManager;
   player: Player;
   hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
+  destroy$ = new Subject();
 
   @HostListener('window:resize', ['$event'])
   resize() {
@@ -48,8 +51,21 @@ export class AppComponent {
     }
   }
 
-  constructor(private scoreService: ScoreService) {
+  constructor(
+      private scoreService: ScoreService,
+      private levelService: LevelService
+  ) {
     this.maxScore = this.scoreService.getMaxScore();
+  }
+
+  ngOnInit() {
+    this.levelService.level$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(level => {
+          if (this.world) {
+            this.world.updateSpeed(12 + (5 * level));
+          }
+        })
   }
 
   load() {
@@ -192,5 +208,10 @@ export class AppComponent {
     if (this.player.gameOver && !this.gameOver) {
       this.gameOver = true;
     }
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(null);
+    this.destroy$.complete();
   }
 }
