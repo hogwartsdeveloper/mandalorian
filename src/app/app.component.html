@@ -3,7 +3,7 @@
         <div class="ui">
             <div class="score-layout">
                 <div class="max" *ngIf="maxScore">HI&nbsp;{{ maxScore | score }}</div>
-                <div *ngIf="score">{{ score | score }}</div>
+                <div *ngIf="score" appScore>{{ score | score }}</div>
             </div>
         </div>
 
