@@ -47,7 +47,7 @@ export class WorldManager {
 
     spawnCluster() {
         const scaleIndex = math.randInt(0, 1);
-        const scales = [1, 0.5];
+        const scales = [1.5, 1];
         const ranges = [2, 3];
         const scale = scales[scaleIndex];
         const numObjects = math.randInt(1, ranges[scaleIndex]);
