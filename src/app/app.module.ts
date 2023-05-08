@@ -5,6 +5,7 @@ import {AppComponent} from './app.component';
 import { ScorePipe } from './pipes/score.pipe';
 import {ScoreService} from "./services/score.service";
 import {LoadingComponent} from "./modules/loading/loading.component";
+import {LevelService} from "./services/level.service";
 
 @NgModule({
   declarations: [
@@ -15,7 +16,7 @@ import {LoadingComponent} from "./modules/loading/loading.component";
     BrowserModule,
     LoadingComponent
   ],
-  providers: [ScoreService],
+  providers: [ScoreService, LevelService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

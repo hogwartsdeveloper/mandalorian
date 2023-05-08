@@ -1,11 +1,12 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
+import {LevelService} from "./level.service";
 
 @Injectable()
 export class ScoreService {
   private score = 0;
   private maxScore = 0;
 
-  constructor() {
+  constructor(private levelService: LevelService) {
     const maxValueFromStorage = localStorage.getItem('maxScore');
     if (maxValueFromStorage) {
       this.maxScore = +maxValueFromStorage;
@@ -18,7 +19,15 @@ export class ScoreService {
 
   updateScore(timeElapsed: number) {
     this.score += timeElapsed * 10;
+    this.checkScore(this.score);
     return this.score;
+  }
+
+  checkScore(score: number) {
+    score = Math.round(score);
+    if (score % 100 === 0 && score > 0) {
+      this.levelService.updateLevel(score);
+    }
   }
 
   restart() {
