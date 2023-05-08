@@ -1,0 +1,33 @@
+@font-face {
+font-family: "icons";
+src: url("./icons.eot") format("embedded-opentype"),
+url("./icons.woff2") format("woff2"),
+url("./icons.woff") format("woff"),
+url("./icons.ttf") format("truetype"),
+url("./icons.svg") format("svg");
+}
+
+{{# if selector }}
+    {{ selector }}:before {
+{{ else }}
+    {{ tag }}[class^="{{prefix}}-"]:before, {{ tag }}[class*=" {{prefix}}-"]:before {
+{{/ if }}
+font-family: {{ name }} !important;
+font-style: normal;
+font-weight: normal !important;
+font-variant: normal;
+text-transform: none;
+line-height: 1;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
+
+{{# each codepoints }}
+    {{# if ../selector }}
+        {{ ../selector }}.{{ ../prefix }}-{{ @key }}:before {
+    {{ else }}
+        {{ tag }}.{{ ../prefix }}-{{ @key }}:before {
+    {{/ if }}
+    content: "\\{{ codepoint this }}";
+    }
+{{/ each }}

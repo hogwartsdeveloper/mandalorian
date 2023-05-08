@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "icons": "fantasticon src/assets/icons/source -o src/assets/icons/custom-icons"
   },
   "private": true,
   "dependencies": {
@@ -19,6 +20,7 @@
     "@angular/platform-browser-dynamic": "^15.2.0",
     "@angular/router": "^15.2.0",
     "@types/three": "^0.151.0",
+    "fantasticon": "^2.0.0",
     "rxjs": "~7.8.0",
     "three": "^0.152.2",
     "tslib": "^2.3.0",
