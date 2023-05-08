@@ -127,7 +127,7 @@ export class Player {
             this.activeAction.fadeIn(1);
             this.activeAction.play();
         }
-        this.activeAction.play();
+        this.activeAction?.play();
     }
 
     update(timeElapsed: number) {

@@ -41,6 +41,13 @@ export class AppComponent {
     this.renderer?.setSize(window.innerWidth, window.innerHeight);
   }
 
+  @HostListener('document:keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent) {
+    if (event.keyCode === 32 && !this.gameStarted) {
+      this.onStart();
+    }
+  }
+
   constructor(private scoreService: ScoreService) {
     this.maxScore = this.scoreService.getMaxScore();
   }
