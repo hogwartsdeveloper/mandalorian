@@ -24,7 +24,7 @@
   & > div {
     font-size: 1.5em;
     color: white;
-    padding: 1em;
+    padding: 0.8em;
     text-shadow: 5px 5px black;
 
     &.max {
@@ -53,9 +53,10 @@
 }
 
 .game-over-text {
-  font-size: 5em;
+  text-align: center;
+  font-size: 4em;
   color: white;
-  text-shadow: 8px 8px black;
+  text-shadow: 7px 7px black;
 }
 
 .game-menu-layout {

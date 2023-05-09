@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import {FBXLoader} from "three/examples/jsm/loaders/FBXLoader";
 
 export class Player {
-    private position = new THREE.Vector3(0, 0, 0);
+    private position = new THREE.Vector3(4.5, 0, 0);
     private velocity = 0.0;
     private playerBox = new THREE.Box3();
     private params: any;
