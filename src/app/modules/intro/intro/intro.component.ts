@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-intro',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./intro.component.scss']
 })
 export class IntroComponent {
+  constructor(private router: Router) {}
 
+  onPlayGame() {
+    this.router.navigate(['/game']);
+  }
 }
