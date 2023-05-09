@@ -21,9 +21,17 @@ line-height: 1;
 }
 
 $icons-map: (
-    "mandalorian": "\f101",
+    "github": "\f101",
+    "linkedin": "\f102",
+    "mandalorian": "\f103",
 );
 
+        .icon-github:before {
+    content: map-get($icons-map, "github");
+    }
+        .icon-linkedin:before {
+    content: map-get($icons-map, "linkedin");
+    }
         .icon-mandalorian:before {
     content: map-get($icons-map, "mandalorian");
     }

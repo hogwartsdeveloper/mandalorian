@@ -18,6 +18,12 @@ line-height: 1;
 -moz-osx-font-smoothing: grayscale;
 }
 
-        .icon-mandalorian:before {
+        .icon-github:before {
     content: "\f101";
+    }
+        .icon-linkedin:before {
+    content: "\f102";
+    }
+        .icon-mandalorian:before {
+    content: "\f103";
     }

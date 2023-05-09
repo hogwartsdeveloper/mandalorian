@@ -12,4 +12,8 @@ export class IntroComponent {
   onPlayGame() {
     this.router.navigate(['/game']);
   }
+
+  goToSocial(link: string) {
+    window.open(link, '_blank');
+  }
 }

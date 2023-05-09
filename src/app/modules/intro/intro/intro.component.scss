@@ -3,3 +3,51 @@ img {
   margin-left: auto;
   margin-right: auto;
 }
+
+.social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & .item {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+
+    width: 50px;
+    height: 50px;
+    background: #fff;
+    margin: 20px;
+    text-align: center;
+    font-size: 50px;
+    line-height: 25px;
+    overflow: hidden;
+    box-shadow: 5px 10px 20px rgba(150, 150, 150, 0.3);
+    transition: all .3s ease-out;
+
+    &:hover {
+      width: 180px;
+      justify-content: space-evenly;
+    }
+
+    &.linkedin {
+      color: #0077b5;
+
+      &:hover {
+        background: #0077b5;
+        color: #ffffff;
+      }
+    }
+
+    &.github {
+      color: #000000;
+
+      &:hover {
+        background: #000000;
+        color: #ffffff;
+      }
+    }
+
+
+  }
+}
