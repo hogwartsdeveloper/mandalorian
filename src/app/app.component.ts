@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import * as THREE from 'three';
 import {pcss, pcssGetShadow, skyFragmentShader, skyVertexShader} from "./models/three.model";
 import {Background} from "./utils/background";
@@ -13,10 +13,10 @@ import {LevelService} from "./services/level.service";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('container') main: ElementRef<HTMLDivElement>
   @ViewChild('audio') audio: ElementRef<HTMLAudioElement>
-  loading = false;
+  loading = true;
   renderer: THREE.WebGLRenderer;
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(
@@ -25,7 +25,6 @@ export class AppComponent implements OnInit, OnDestroy {
       1,
       2000
   );
-  gameStarted = false;
   gameOver = false;
   previousTime: number;
   score = 0;
@@ -44,13 +43,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.renderer?.setSize(window.innerWidth, window.innerHeight);
   }
 
-  @HostListener('document:keydown', ['$event'])
-  onKeyDown(event: KeyboardEvent) {
-    if (event.keyCode === 32 && !this.gameStarted) {
-      this.onStart();
-    }
-  }
-
   constructor(
       private scoreService: ScoreService,
       private levelService: LevelService
@@ -66,6 +58,10 @@ export class AppComponent implements OnInit, OnDestroy {
             this.world.updateSpeed(12 + (2 * level));
           }
         })
+  }
+
+  ngAfterViewInit() {
+    this.onStart()
   }
 
   load() {
@@ -163,11 +159,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onStart() {
-    this.loading = true;
     this.load();
     setTimeout(() => {
       this.loading = false;
-      this.gameStarted = true;
       this.audio.nativeElement.volume = 0.19
       this.audio.nativeElement.play();
     }, 5000)
@@ -196,7 +190,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   step(timeElapsed: number) {
-    if (this.gameOver || !this.gameStarted) {
+    if (this.gameOver) {
       return
     }
     this.player.update(timeElapsed);

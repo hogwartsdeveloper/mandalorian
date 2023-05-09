@@ -1,10 +1,8 @@
 import * as THREE from 'three';
 import {FBXLoader} from "three/examples/jsm/loaders/FBXLoader";
-import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader";
 
 export class Player {
     private position = new THREE.Vector3(0, 0, 0);
-    private position2 = new THREE.Vector3(0, 0, 1);
     private velocity = 0.0;
     private playerBox = new THREE.Box3();
     private params: any;
@@ -18,6 +16,7 @@ export class Player {
         space: false
     }
     gameOver = false;
+    keyTimeout: ReturnType<typeof setTimeout>
 
     constructor(params: any) {
         this.params = params;
@@ -61,6 +60,15 @@ export class Player {
     initInput() {
         document.addEventListener('keydown', (e) => this.onKeyDown(e), false);
         document.addEventListener('keyup', (e) => this.onKeyUp(e), false);
+        document.addEventListener('click', (e) => {
+            this.setAction(this.animationActions[1]);
+            this.keys.space = true;
+            this.setAction(this.animationActions[0]);
+            clearTimeout(this.keyTimeout);
+            this.keyTimeout = setTimeout(() => {
+                this.keys.space = false;
+            }, 300);
+        })
     }
 
     onKeyDown(event: KeyboardEvent) {
@@ -68,14 +76,13 @@ export class Player {
             case 32:
                 this.setAction(this.animationActions[1]);
                 this.keys.space = true;
-
+                this.setAction(this.animationActions[0]);
         }
     }
 
     onKeyUp(event: KeyboardEvent) {
         switch (event.keyCode) {
             case 32:
-                this.setAction(this.animationActions[0]);
                 this.keys.space = false;
         }
     }

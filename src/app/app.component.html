@@ -13,20 +13,6 @@
                 <img class="return" src="/assets/img/return.png">
             </div>
         </div>
-
-        <div *ngIf="!gameStarted" class="ui">
-            <div class="game-menu-layout" (click)="onStart()">
-                <div class="game-menu-window">
-                    <span class="icon-mandalorian"></span>
-                    <h1>No internet</h1>
-                    <p>Try:</p>
-                    <li>Checking the network cables, modem, and router</li>
-                    <li>Reconnecting to Wi-Fi</li>
-                    <li>Running Windows Network Diagnostics</li>
-                    <p id="error">ERR_INTERNET_DISCONNECTED</p>
-                </div>
-            </div>
-        </div>
     </ng-container>
 </div>
 
