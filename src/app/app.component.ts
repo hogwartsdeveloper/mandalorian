@@ -91,7 +91,6 @@ export class AppComponent implements OnInit, OnDestroy {
     THREE.ShaderChunk.shadowmap_pars_fragment = shadowCode;
 
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
-    this.renderer.outputEncoding = THREE.sRGBEncoding;
     this.renderer.shadowMap.enabled = true;
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);

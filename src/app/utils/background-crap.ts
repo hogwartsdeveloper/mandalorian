@@ -29,7 +29,6 @@ export class BackgroundCrap {
         const [asset, textureName, scale] = assets[math.randInt(0, assets.length - 1)];
         const textLoader = new THREE.TextureLoader();
         const texture = textLoader.load('/assets/textures/' + textureName);
-        texture.encoding = THREE.sRGBEncoding;
 
         const loader = new GLTFLoader();
         loader.setPath('/assets/models/');

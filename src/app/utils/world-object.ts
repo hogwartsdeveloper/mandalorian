@@ -17,7 +17,6 @@ export class WorldObject {
     loadModel() {
         const textureLoader = new THREE.TextureLoader();
         const texture = textureLoader.load('/assets/textures/Ground.png');
-        texture.encoding = THREE.sRGBEncoding;
 
         const loader = new FBXLoader();
         loader.setPath('/assets/models/');
