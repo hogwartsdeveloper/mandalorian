@@ -13,14 +13,14 @@ export class Background {
     }
 
     spawnClouds() {
-        for (let i = 0; i < 25; ++i) {
+        for (let i = 0; i < 50; ++i) {
             const cloud = new BackgroundCloud(this.params);
             this.clouds.push(cloud);
         }
     }
 
     spawnCrap() {
-        for (let i = 0; i < 50; ++i) {
+        for (let i = 0; i < 60; ++i) {
             const crap = new BackgroundCrap(this.params);
             this.craps.push(crap);
         }

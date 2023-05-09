@@ -23,7 +23,7 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
       60,
       window.innerWidth / window.innerHeight,
       1,
-      2000
+      20000
   );
   gameOver = false;
   previousTime: number;
