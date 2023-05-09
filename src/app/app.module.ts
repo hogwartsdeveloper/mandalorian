@@ -8,17 +8,17 @@ import {LoadingComponent} from "./modules/loading/loading.component";
 import {LevelService} from "./services/level.service";
 import {ScoreDirective} from './directives/score.directive';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {AppRoutingModule} from "./app-routing.module";
 
 @NgModule({
   declarations: [
     AppComponent,
-    ScorePipe,
-    ScoreDirective
   ],
   imports: [
     BrowserModule,
     LoadingComponent,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AppRoutingModule
   ],
   providers: [ScoreService, LevelService],
   bootstrap: [AppComponent]

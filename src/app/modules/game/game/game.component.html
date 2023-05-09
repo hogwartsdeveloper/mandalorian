@@ -1,0 +1,23 @@
+<div class="main" #main>
+    <ng-container *ngIf="!loading; else load" >
+        <div class="ui">
+            <div class="score-layout">
+                <div class="max" *ngIf="maxScore">HI&nbsp;{{ maxScore | score }}</div>
+                <div *ngIf="score" appScore>{{ score | score }}</div>
+            </div>
+        </div>
+
+        <div *ngIf="gameOver" class="ui">
+            <div class="game-over-layout" (click)="onRestart()">
+                <div class="game-over-text">GAME OVER</div>
+                <img class="return" src="/assets/img/return.png">
+            </div>
+        </div>
+    </ng-container>
+</div>
+
+<ng-template #load>
+    <app-loading></app-loading>
+</ng-template>
+
+<audio #audio src="/assets/sounds/mandalorian.mp3"></audio>
