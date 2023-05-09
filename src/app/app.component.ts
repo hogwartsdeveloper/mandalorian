@@ -14,7 +14,7 @@ import {LevelService} from "./services/level.service";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('container') main: ElementRef<HTMLDivElement>
+  @ViewChild('main') main: ElementRef<HTMLDivElement>
   @ViewChild('audio') audio: ElementRef<HTMLAudioElement>
   loading = true;
   renderer: THREE.WebGLRenderer;
