@@ -2,7 +2,7 @@
   min-height: 100vh;
   display: grid;
   place-items: center;
-  background: #eee;
+  background: black;
 }
 
 .container {
@@ -11,6 +11,7 @@
 
   & h3 {
     font-size: 16px;
+    color: white;
   }
 
   & .sword {
@@ -44,11 +45,11 @@
       left: 100px;
       height: 13px;
       width: 75%;
-      background: lightblue;
-      border-radius: 50px;
-      box-shadow: 0 0 0 4px blue,
-                  0 0 35px blue,
-                  0 0 10px blue inset;
+      background: black;
+      border-bottom-right-radius: 50px;
+      box-shadow: 0 0 0 4px white,
+                  0 0 35px white,
+                  0 0 10px white inset;
       animation: swordLaser 4s linear;
     }
   }

@@ -170,7 +170,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.gameStarted = true;
       this.audio.nativeElement.volume = 0.19
       this.audio.nativeElement.play();
-    }, 4000)
+    }, 5000)
 
   }
 
