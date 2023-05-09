@@ -9,7 +9,6 @@ export class Player {
     private playerBox = new THREE.Box3();
     private params: any;
     private mesh: THREE.Group;
-    private grogu: THREE.Group;
     private mixer: THREE.AnimationMixer;
     private animationActions: THREE.AnimationAction[] = [];
     private activeAction: THREE.AnimationAction;
@@ -24,7 +23,6 @@ export class Player {
         this.params = params;
 
         this.loadModel();
-        this.loadGrogu();
         this.initInput();
     }
 
@@ -32,7 +30,7 @@ export class Player {
         const loader = new FBXLoader();
         loader.setPath('/assets/models/');
         loader.load('mandalorian.fbx', (fbx) => {
-            fbx.scale.setScalar(0.0150);
+            fbx.scale.setScalar(3);
             fbx.quaternion.setFromAxisAngle(
                 new THREE.Vector3(0, 1, 0), Math.PI / 2
             );
@@ -57,29 +55,6 @@ export class Player {
                 const animationAction = this.mixer.clipAction(fbx.animations[0]);
                 this.animationActions.push(animationAction);
             })
-        });
-    }
-
-    loadGrogu() {
-        const loader = new GLTFLoader();
-        loader.setPath('/assets/models/');
-        loader.load('grogu.glb', (gltf) => {
-            this.grogu = gltf.scene;
-            this.grogu.scale.setScalar(2);
-            this.grogu.position.copy(this.position2);
-            this.grogu.quaternion.setFromAxisAngle(
-                new THREE.Vector3(0, 1, 0), Math.PI / 2
-            );
-
-
-            this.params.scene.add(this.grogu);
-
-            this.grogu.traverse(obj => {
-                const item = obj as THREE.Mesh;
-
-                item.castShadow = true;
-                item.receiveShadow = true;
-            });
         });
     }
 
@@ -150,11 +125,6 @@ export class Player {
             this.mixer.update(timeElapsed);
             this.mesh.position.copy(this.position);
             this.checkCollisions();
-        }
-
-        if (this.grogu) {
-            this.position2.y = this.position.y;
-            this.grogu.position.copy(this.position2)
         }
     }
 }

@@ -63,7 +63,7 @@ export class AppComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.destroy$))
         .subscribe(level => {
           if (this.world) {
-            this.world.updateSpeed(12 + (5 * level));
+            this.world.updateSpeed(12 + (2 * level));
           }
         })
   }
