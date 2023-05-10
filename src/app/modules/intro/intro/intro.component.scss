@@ -68,3 +68,78 @@ img {
     background: white;
   }
 }
+
+.play {
+  position: relative;
+  background: #444;
+  color: #ffffff;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 1em;
+  letter-spacing: 0.1em;
+  padding: 10px 30px;
+  transition: 0.5s;
+  cursor: pointer;
+
+  &:hover {
+    letter-spacing: 0.25em;
+    background: #ff1867;
+    color: #ff1867;
+    box-shadow: 0 0 35px #ff1867;
+
+    & > i:before {
+      width: 20px;
+      left: 20%;
+    }
+
+    & > i:after {
+      width: 20px;
+      left: 80%;
+    }
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    background: #27282c;
+  }
+
+  & > span {
+    position: relative;
+    z-index: 1;
+  }
+
+  & > i {
+    position: absolute;
+    inset: 0;
+    display: block;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: -2.5px;
+      left: 80%;
+      width: 10px;
+      height: 5px;
+      border: 2px solid #ff1867;
+      background: #27282c;
+      transform: translateX(-50%);
+      transition: 0.5s;
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: -2.5px;
+      left: 20%;
+      width: 10px;
+      height: 5px;
+      border: 2px solid #ff1867;
+      background: #27282c;
+      transform: translateX(-50%);
+      transition: 0.5s;
+    }
+  }
+
+}
