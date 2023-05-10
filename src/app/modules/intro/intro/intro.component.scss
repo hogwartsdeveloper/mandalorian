@@ -51,3 +51,20 @@ img {
 
   }
 }
+
+.mandalorian {
+  position: relative;
+  margin-top: 10px;
+  padding-top: 5px;
+  border-top: 1px solid #000;
+
+  &:before {
+    content: 'THE';
+    position: absolute;
+    top: -9px;
+    font-size: 10px;
+    z-index: 10;
+    left: 42%;
+    background: white;
+  }
+}
