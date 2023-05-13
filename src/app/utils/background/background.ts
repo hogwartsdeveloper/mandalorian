@@ -1,6 +1,6 @@
 import {BackgroundCloud} from "./background-cloud";
 import {BackgroundCrap} from "./background-crap";
-import {IParam} from "../models/utils.model";
+import {IParam} from "../../models/utils.model";
 
 export class Background {
     private readonly params: IParam;

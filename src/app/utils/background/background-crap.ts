@@ -1,20 +1,14 @@
 import * as THREE from 'three';
-import {math} from "./math";
+import {math} from "../math";
 import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader";
-import {IParam} from "../models/utils.model";
+import {IParam} from "../../models/utils.model";
+import {BackgroundBase} from "./background.base";
 
-export class BackgroundCrap {
-    position = new THREE.Vector3();
-    quaternion = new THREE.Quaternion();
-    scale = 1.0;
-    mesh: THREE.Group;
-    private readonly params: IParam
-
+export class BackgroundCrap extends BackgroundBase {
     constructor(params: IParam) {
-        this.params = params;
+        super(params);
         this.loadModel();
     }
-
     loadModel() {
         const assets = [
             ['SmallPalmTree.glb', 'PalmTree.png', 3],
@@ -60,20 +54,5 @@ export class BackgroundCrap {
                 }
             })
         })
-    }
-
-    update(timeElapsed: number) {
-        if (!this.mesh) {
-            return;
-        }
-
-        this.position.x -= timeElapsed * 10;
-        if (this.position.x < -100) {
-            this.position.x = math.randRange(2000, 3000);
-        }
-
-        this.mesh.position.copy(this.position);
-        this.mesh.quaternion.copy(this.quaternion);
-        this.mesh.scale.setScalar(this.scale);
     }
 }

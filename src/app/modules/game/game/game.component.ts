@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import * as THREE from "three";
-import {Background} from "../../../utils/background";
+import {Background} from "../../../utils/background/background";
 import {WorldManager} from "../../../utils/world-manager";
 import {Player} from "../../../utils/player";
 import {Subject, takeUntil} from "rxjs";
