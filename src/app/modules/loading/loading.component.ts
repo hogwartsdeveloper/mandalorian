@@ -64,7 +64,7 @@ export class LoadingComponent extends ThreeWorldBase implements AfterViewInit, O
         }
       }, 30);
       this.audio.nativeElement.volume = 0.19;
-      this.audio.nativeElement.play();
+      this.audio.nativeElement.play().catch(() => console.log('user not interact'));
     });
   }
 
