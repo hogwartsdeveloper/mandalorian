@@ -36,6 +36,7 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
   hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
   audioState: AudioState;
   audioStateEnum = AudioState;
+  startTimeout: ReturnType<typeof setInterval>;
   destroy$ = new Subject();
 
   @HostListener('window:resize', ['$event'])
@@ -165,10 +166,12 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onStart() {
     this.load();
-    setTimeout(() => {
+
+    clearTimeout(this.startTimeout);
+    this.startTimeout = setTimeout(() => {
       this.loading = false;
       this.audioService.start(this.audio?.nativeElement);
-    }, 5000)
+    }, 6000)
 
   }
 
@@ -216,5 +219,7 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next(null);
     this.destroy$.complete();
+
+    clearTimeout(this.startTimeout);
   }
 }

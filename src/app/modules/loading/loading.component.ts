@@ -1,7 +1,7 @@
-import {AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener, OnDestroy, ViewChild} from '@angular/core';
 import * as THREE from 'three';
-import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader";
+import {ThreeWorldBase} from "../../utils/three-world.base";
 
 @Component({
   selector: 'app-loading',
@@ -9,82 +9,39 @@ import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader";
   styleUrls: ['./loading.component.scss'],
   standalone: true
 })
-export class LoadingComponent implements OnInit, AfterViewInit, OnDestroy {
+export class LoadingComponent extends ThreeWorldBase implements AfterViewInit, OnDestroy {
   @ViewChild('audio') audio: ElementRef<HTMLAudioElement>;
-  @ViewChild('canvas') canvas: ElementRef<HTMLCanvasElement>;
-  renderer: THREE.WebGLRenderer;
-  camera = new THREE.PerspectiveCamera(
-      45,
-      window.innerWidth  / window.innerHeight,
-      1,
-      100
-  );
+  @ViewChild('canvas') container: ElementRef<HTMLCanvasElement>;
   mixer: THREE.AnimationMixer;
-
-  @HostListener('window:resize', ['$event'])
-  resize() {
-    this.camera.aspect = window.innerWidth / window.innerHeight;
-    this.camera.updateProjectionMatrix();
-
-    this.renderer?.setSize(window.innerWidth, window.innerHeight);
-  }
-
   count = 0;
   timeout: ReturnType<typeof setInterval>;
-  ngOnInit() {
+  clock = new THREE.Clock();
+  animationPauseTime: ReturnType<typeof setTimeout>;
+
+  @HostListener('window:resize', ['$event'])
+  windowResize() {
+    this.resize();
+  }
+
+  constructor() {
+    super(0x1b1b1b);
   }
 
   ngAfterViewInit() {
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color( 0x1b1b1b);
-    scene.fog = new THREE.Fog( scene.background, 10, 100 );
-    this.renderer = new THREE.WebGLRenderer({ antialias: true, canvas: this.canvas?.nativeElement });
-    this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
-
-    this.camera.position.set(0, 0, 40)
-
-    const hemiLight = new THREE.HemisphereLight( 0xffffff, 0x444444 );
-    hemiLight.position.set( 10, 10, 10 );
-    scene.add( hemiLight );
-
-    const dirLight = new THREE.DirectionalLight( 0xffffff );
-    dirLight.position.set( 10, 10, 10 );
-    dirLight.castShadow = true;
-    dirLight.shadow.camera.top = 2;
-    dirLight.shadow.camera.bottom = - 2;
-    dirLight.shadow.camera.left = - 2;
-    dirLight.shadow.camera.right = 2;
-    dirLight.shadow.camera.near = 0.1;
-    dirLight.shadow.camera.far = 40;
-    scene.add( dirLight );
-
-    const controls = new OrbitControls(this.camera, this.canvas.nativeElement);
-    controls.enablePan = false;
-    controls.enableZoom = false;
-
-    this.loadModel(scene);
-    controls.update();
-    const clock = new THREE.Clock();
-    const animate = () => {
-      requestAnimationFrame(animate);
-      let delta = Math.min(clock.getDelta(), 0.1);
-      this.mixer?.update(delta);
-
-      this.renderer.render(scene, this.camera);
-    }
-
-    animate();
+    this.init(this.container?.nativeElement);
+    this.camera.position.set(0, 0, 40);
+    this.hemiLight.position.set( 10, 10, 10 );
+    this.dirLight.position.set( 10, 10, 10 );
   }
 
-  loadModel(scene: THREE.Scene) {
+  override loadModel() {
     const loader = new GLTFLoader();
     loader.load('/assets/models/dark-saber2.glb', (glb) => {
       const model = glb.scene;
       model.scale.setScalar(1.2);
       model.rotation.set(1.5, 0, 0);
       model.position.set(10, 0, 0)
-      scene.add(model);
+      this.scene.add(model);
 
       model.traverse( function ( object ) {
         object.castShadow = true;
@@ -93,21 +50,31 @@ export class LoadingComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.mixer = new THREE.AnimationMixer(glb.scene);
       const animationAction = this.mixer.clipAction(glb.animations[0]).play();
-      setTimeout(() => {
+
+      clearTimeout(this.animationPauseTime);
+      this.animationPauseTime = setTimeout(() => {
         animationAction.paused = true;
       }, 2900);
+
+      clearInterval(this.timeout)
       this.timeout = setInterval(() => {
         this.count++;
         if (this.count === 100) {
           clearInterval(this.timeout);
         }
-      }, 30)
+      }, 30);
       this.audio.nativeElement.volume = 0.19;
       this.audio.nativeElement.play();
     });
   }
 
+  override animate() {
+    let delta = Math.min(this.clock.getDelta(), 0.1);
+    this.mixer?.update(delta);
+  }
+
   ngOnDestroy() {
     clearInterval(this.timeout);
+    clearTimeout(this.animationPauseTime);
   }
 }
