@@ -22,12 +22,8 @@ export class IntroComponent implements AfterViewInit {
 
   @HostListener('window:resize', ['$event'])
   resize() {
-
-    if (this.camera) {
-      console.log('resize')
-      this.camera.aspect = window.innerWidth / window.innerHeight;
-      this.camera.updateProjectionMatrix();
-    }
+    this.camera.aspect = window.innerWidth / window.innerHeight;
+    this.camera.updateProjectionMatrix();
 
     this.renderer?.setSize(window.innerWidth, window.innerHeight);
   }
