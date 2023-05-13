@@ -1,15 +1,16 @@
 import * as THREE from 'three';
 import {FBXLoader} from "three/examples/jsm/loaders/FBXLoader";
+import {IParam} from "../models/utils.model";
 
 export class WorldObject {
-    params: any;
+    private readonly params: IParam;
     position = new THREE.Vector3();
     quaternion = new THREE.Quaternion();
     scale = 1;
     collider = new THREE.Box3();
     mesh: THREE.Group;
 
-    constructor(params: any) {
+    constructor(params: IParam) {
         this.params = params;
         this.loadModel();
     }
@@ -46,7 +47,7 @@ export class WorldObject {
         this.collider.setFromObject(this.mesh);
     }
 
-    update(timeElapsed: number) {
+    update() {
         if (!this.mesh) {
             return;
         }

@@ -1,13 +1,14 @@
 import * as THREE from 'three';
 import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader";
 import {math} from "./math";
+import {IParam} from "../models/utils.model";
 export class BackgroundCloud {
-    params: any
+    private readonly params: IParam;
     position = new THREE.Vector3();
     quaternion = new THREE.Quaternion();
     scale = 1.0;
     mesh: THREE.Group;
-    constructor(params: any) {
+    constructor(params: IParam) {
         this.params = params;
         this.loadModel();
     }

@@ -1,11 +1,12 @@
 import * as THREE from 'three';
 import {FBXLoader} from "three/examples/jsm/loaders/FBXLoader";
+import {IParam} from "../models/utils.model";
 
 export class Player {
     private position = new THREE.Vector3(4.5, 0, 0);
     private velocity = 0.0;
     private playerBox = new THREE.Box3();
-    private params: any;
+    private readonly params: IParam;
     private mesh: THREE.Group;
     private mixer: THREE.AnimationMixer;
     private animationActions: THREE.AnimationAction[] = [];
@@ -18,7 +19,7 @@ export class Player {
     gameOver = false;
     keyTimeout: ReturnType<typeof setTimeout>
 
-    constructor(params: any) {
+    constructor(params: IParam) {
         this.params = params;
 
         this.loadModel();
@@ -82,7 +83,6 @@ export class Player {
     }
 
     onKeyUp(event: KeyboardEvent) {
-        // event.stopPropagation();
         switch (event.keyCode) {
             case 32:
                 this.keys.space = false;
@@ -90,7 +90,7 @@ export class Player {
     }
 
     checkCollisions() {
-        const colliders = this.params.world.getColliders();
+        const colliders = this.params.world!.getColliders();
         this.playerBox.setFromObject(this.mesh);
 
         for (let collider of colliders) {

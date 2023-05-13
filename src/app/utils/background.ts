@@ -1,11 +1,12 @@
 import {BackgroundCloud} from "./background-cloud";
 import {BackgroundCrap} from "./background-crap";
+import {IParam} from "../models/utils.model";
 
 export class Background {
-    params;
+    private readonly params: IParam;
     clouds: BackgroundCloud[] = [];
     craps: BackgroundCrap[] = [];
-    constructor(params: any) {
+    constructor(params: IParam) {
         this.params = params;
 
         this.spawnClouds();

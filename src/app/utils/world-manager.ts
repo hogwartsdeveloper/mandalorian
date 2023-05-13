@@ -1,6 +1,7 @@
 import {WorldObject} from "./world-object";
 import * as THREE from 'three';
 import {math} from "./math";
+import {IParam} from "../models/utils.model";
 
 const START_POS = 100;
 const SEPARATION_DISTANCE = 20;
@@ -9,10 +10,10 @@ export class WorldManager {
     private objects: WorldObject[] = [];
     private unused: WorldObject[] = [];
     private speed = 12;
-    private params: any;
+    private readonly params: IParam;
     private separationDistance = SEPARATION_DISTANCE;
 
-    constructor(params: any) {
+    constructor(params: IParam) {
         this.params = params;
     }
 
@@ -85,7 +86,7 @@ export class WorldManager {
                 visible.push(obj);
             }
 
-            obj.update(timeElapsed)
+            obj.update()
         }
 
         this.objects = visible;

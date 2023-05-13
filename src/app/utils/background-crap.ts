@@ -1,15 +1,16 @@
 import * as THREE from 'three';
 import {math} from "./math";
 import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader";
+import {IParam} from "../models/utils.model";
 
 export class BackgroundCrap {
     position = new THREE.Vector3();
     quaternion = new THREE.Quaternion();
     scale = 1.0;
     mesh: THREE.Group;
-    params: any
+    private readonly params: IParam
 
-    constructor(params: any) {
+    constructor(params: IParam) {
         this.params = params;
         this.loadModel();
     }
