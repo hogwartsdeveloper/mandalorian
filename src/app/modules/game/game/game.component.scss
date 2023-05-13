@@ -18,6 +18,7 @@
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
+  flex-wrap: wrap;
 
   & > div {
     font-size: 1.5em;
@@ -102,4 +103,8 @@
   line-height: 1.55em;
   color: rgb(95, 99, 104);
   margin-top: 12px;
+}
+
+.sound-btn {
+  display: flex !important;
 }

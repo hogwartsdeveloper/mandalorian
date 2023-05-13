@@ -24,6 +24,8 @@ $icons-map: (
     "github": "\f101",
     "linkedin": "\f102",
     "mandalorian": "\f103",
+    "sound-off": "\f104",
+    "sound": "\f105",
 );
 
         .icon-github:before {
@@ -34,4 +36,10 @@ $icons-map: (
     }
         .icon-mandalorian:before {
     content: map-get($icons-map, "mandalorian");
+    }
+        .icon-sound-off:before {
+    content: map-get($icons-map, "sound-off");
+    }
+        .icon-sound:before {
+    content: map-get($icons-map, "sound");
     }

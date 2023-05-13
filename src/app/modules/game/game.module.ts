@@ -5,6 +5,7 @@ import {GameRouterModule} from "./game-router.module";
 import {LoadingComponent} from "../loading/loading.component";
 import {ScoreDirective} from "../../directives/score.directive";
 import {ScorePipe} from "../../pipes/score.pipe";
+import {MatButtonModule} from "@angular/material/button";
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import {ScorePipe} from "../../pipes/score.pipe";
     CommonModule,
     GameRouterModule,
     LoadingComponent,
+    MatButtonModule,
   ]
 })
 export class GameModule { }

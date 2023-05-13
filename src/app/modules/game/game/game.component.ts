@@ -7,6 +7,7 @@ import {Subject, takeUntil} from "rxjs";
 import {ScoreService} from "../../../services/score.service";
 import {LevelService} from "../../../services/level.service";
 import {pcss, pcssGetShadow, skyFragmentShader, skyVertexShader} from "../../../models/three.model";
+import {AudioService, AudioState} from "../../../services/audio.service";
 
 @Component({
   selector: 'app-game',
@@ -33,6 +34,8 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
   world: WorldManager;
   player: Player;
   hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
+  audioState: AudioState;
+  audioStateEnum = AudioState;
   destroy$ = new Subject();
 
   @HostListener('window:resize', ['$event'])
@@ -45,9 +48,11 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
       private scoreService: ScoreService,
-      private levelService: LevelService
+      private levelService: LevelService,
+      private audioService: AudioService
   ) {
     this.maxScore = this.scoreService.getMaxScore();
+    this.audioState = this.audioService.state;
   }
 
   ngOnInit() {
@@ -162,8 +167,7 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
     this.load();
     setTimeout(() => {
       this.loading = false;
-      this.audio.nativeElement.volume = 0.19
-      this.audio.nativeElement.play();
+      this.audioService.start(this.audio?.nativeElement);
     }, 5000)
 
   }
@@ -173,7 +177,7 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
     this.maxScore = this.scoreService.restart();
     this.gameOver = false;
     this.player.gameOver = false;
-    this.audio.nativeElement.currentTime = 0;
+    this.audioService.restart(this.audio.nativeElement);
   }
 
   animate() {
@@ -201,6 +205,12 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.player.gameOver && !this.gameOver) {
       this.gameOver = true;
     }
+  }
+
+  onAudio(event) {
+    event.stopPropagation();
+    this.audioState = this.audioState === AudioState.On ? AudioState.Off : AudioState.On;
+    this.audioService.setState(this.audioState, this.audio?.nativeElement);
   }
 
   ngOnDestroy() {

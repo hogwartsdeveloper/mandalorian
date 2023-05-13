@@ -72,6 +72,7 @@ export class Player {
     }
 
     onKeyDown(event: KeyboardEvent) {
+        event.stopPropagation();
         switch (event.keyCode) {
             case 32:
                 this.setAction(this.animationActions[1]);
@@ -81,6 +82,7 @@ export class Player {
     }
 
     onKeyUp(event: KeyboardEvent) {
+        // event.stopPropagation();
         switch (event.keyCode) {
             case 32:
                 this.keys.space = false;

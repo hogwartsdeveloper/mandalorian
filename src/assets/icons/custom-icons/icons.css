@@ -27,3 +27,9 @@ line-height: 1;
         .icon-mandalorian:before {
     content: "\f103";
     }
+        .icon-sound-off:before {
+    content: "\f104";
+    }
+        .icon-sound:before {
+    content: "\f105";
+    }

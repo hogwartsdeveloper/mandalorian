@@ -4,11 +4,17 @@
             <div class="score-layout">
                 <div class="max" *ngIf="maxScore">HI&nbsp;{{ maxScore | score }}</div>
                 <div *ngIf="score" appScore>{{ score | score }}</div>
+                <button
+                        mat-icon-button
+                        class="sound-btn"
+                        [ngClass]="audioState === audioStateEnum.On ? 'icon-sound' : 'icon-sound-off'"
+                        (click)="onAudio($event)"
+                ></button>
             </div>
         </div>
 
         <div *ngIf="gameOver" class="ui">
-            <div class="game-over-layout" (click)="onRestart()">
+            <div class="game-over-layout" (click)="onRestart(); $event.stopPropagation()">
                 <div class="game-over-text">GAME OVER</div>
                 <img class="return" src="/assets/img/return.png">
             </div>

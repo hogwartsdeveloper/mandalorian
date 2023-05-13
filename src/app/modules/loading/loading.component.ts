@@ -102,6 +102,7 @@ export class LoadingComponent implements OnInit, AfterViewInit, OnDestroy {
           clearInterval(this.timeout);
         }
       }, 30)
+      this.audio.nativeElement.volume = 0.19;
       this.audio.nativeElement.play();
     });
   }
