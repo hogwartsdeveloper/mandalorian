@@ -34,8 +34,8 @@ export class IntroComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color( 0xa0a0a0 );
-    scene.fog = new THREE.Fog( 0xa0a0a0, 10, 100 );
+    scene.background = new THREE.Color( 0xfffae7);
+    scene.fog = new THREE.Fog( scene.background, 10, 100 );
     this.renderer = new THREE.WebGLRenderer({ antialias: true, canvas: this.canvas?.nativeElement });
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);

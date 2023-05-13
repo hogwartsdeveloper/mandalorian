@@ -77,7 +77,7 @@
     font-size: 10px;
     z-index: 10;
     left: 42%;
-    background: #a0a0a0;
+    background: #fffae7;
   }
 }
 
@@ -95,9 +95,9 @@
 
   &:hover {
     letter-spacing: 0.25em;
-    background: #ff1867;
-    color: #ff1867;
-    box-shadow: 0 0 35px #ff1867;
+    background: #799b44;
+    color: #799b44;
+    box-shadow: 0 0 35px #799b44;
 
     & > i:before {
       width: 20px;
@@ -134,7 +134,7 @@
       left: 80%;
       width: 10px;
       height: 5px;
-      border: 2px solid #ff1867;
+      border: 2px solid #799b44;
       background: #27282c;
       transform: translateX(-50%);
       transition: 0.5s;
@@ -147,7 +147,7 @@
       left: 20%;
       width: 10px;
       height: 5px;
-      border: 2px solid #ff1867;
+      border: 2px solid #799b44;
       background: #27282c;
       transform: translateX(-50%);
       transition: 0.5s;
