@@ -35,9 +35,12 @@ export class BackgroundCrap {
         loader.load(asset as string, (glb) => {
             this.mesh = glb.scene;
             this.params.scene.add(this.mesh);
-
             this.position.x = math.randRange(0, 2000);
-            this.position.z = math.randRange(500, -1000);
+            let z;
+            if (asset === 'Pyramid.glb') {
+                z = math.randRange(-100, -1000)
+            }
+            this.position.z = z || math.randRange(500, -1000);
             this.scale = scale as number;
 
             const q = new THREE.Quaternion().setFromAxisAngle(
