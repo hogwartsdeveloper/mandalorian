@@ -38,9 +38,9 @@ export class LoadingComponent extends ThreeWorldBase implements AfterViewInit, O
     const loader = new GLTFLoader();
     loader.load('/assets/models/dark-saber2.glb', (glb) => {
       const model = glb.scene;
-      model.scale.setScalar(1.2);
+      model.scale.setScalar(0.7);
       model.rotation.set(1.5, 0, 0);
-      model.position.set(10, 0, 0)
+      model.position.set(5, 0, 0)
       this.scene.add(model);
 
       model.traverse( function ( object ) {

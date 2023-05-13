@@ -21,7 +21,7 @@ export class Background {
     }
 
     spawnCrap() {
-        for (let i = 0; i < 100; ++i) {
+        for (let i = 0; i < 50; ++i) {
             const crap = new BackgroundCrap(this.params);
             this.craps.push(crap);
         }
