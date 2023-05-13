@@ -22,7 +22,9 @@ export class IntroComponent implements AfterViewInit {
 
   @HostListener('window:resize', ['$event'])
   resize() {
+
     if (this.camera) {
+      console.log('resize')
       this.camera.aspect = window.innerWidth / window.innerHeight;
       this.camera.updateProjectionMatrix();
     }
@@ -76,7 +78,7 @@ export class IntroComponent implements AfterViewInit {
     loader.load('/assets/models/mandalorian-intro.glb', (glb) => {
       const model = glb.scene;
       model.scale.setScalar(0.0015);
-      model.position.set(0, -30, -5)
+      model.position.set(0, -28, -5)
 
       scene.add(model);
 

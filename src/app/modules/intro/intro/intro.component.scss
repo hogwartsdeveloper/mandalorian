@@ -1,13 +1,25 @@
-img {
-  width: 40%;
-  margin-left: auto;
-  margin-right: auto;
+:host::ng-deep {
+  position: relative;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  width: 180px;
+  left: calc(50% - 90px);
 }
 
 .social {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: absolute;
+  bottom: 0;
+  width: 300px;
+  left: calc(50% - 150px);
 
   & .item {
     cursor: pointer;
@@ -16,7 +28,7 @@ img {
 
     width: 50px;
     height: 50px;
-    background: #fff;
+    background: transparent;
     margin: 20px;
     text-align: center;
     font-size: 50px;
@@ -65,7 +77,7 @@ img {
     font-size: 10px;
     z-index: 10;
     left: 42%;
-    background: white;
+    background: #a0a0a0;
   }
 }
 
