@@ -36,4 +36,15 @@ export class Background {
             crap.update(timeElapsed);
         }
     }
+
+    destroy() {
+        this.clouds.forEach(obj => {
+            this.params.scene.remove(obj.mesh);
+        });
+        this.craps.forEach(obj => {
+            this.params.scene.remove(obj.mesh);
+        });
+        this.clouds = [];
+        this.craps = [];
+    }
 }

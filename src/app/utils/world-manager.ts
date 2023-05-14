@@ -93,7 +93,7 @@ export class WorldManager {
         this.unused.push(...invisible);
     }
 
-    restart() {
+    destroy() {
         this.objects.forEach(obj => {
             this.params.scene.remove(obj.mesh);
         });

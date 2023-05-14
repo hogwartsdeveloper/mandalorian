@@ -79,19 +79,6 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   init() {
-    let shadowCode = THREE.ShaderChunk.shadowmap_pars_fragment;
-    shadowCode = shadowCode.replace(
-        '#ifdef USE_SHADOWMAP',
-        '#ifdef USE_SHADOWMAP' + pcss
-    );
-    shadowCode = shadowCode.replace(
-        '#if defined( SHADOWMAP_TYPE_PCF )',
-        pcssGetShadow +
-        '#if defined( SHADOWMAP_TYPE_PCF )'
-    );
-
-    THREE.ShaderChunk.shadowmap_pars_fragment = shadowCode;
-
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.shadowMap.enabled = true;
     this.renderer.setPixelRatio(window.devicePixelRatio);
@@ -102,6 +89,10 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.scene.background = new THREE.Color(0x808080);
     this.scene.fog = new THREE.FogExp2(0x89b2eb, 0.00125);
+
+    this.world = new WorldManager({ scene: this.scene });
+    this.player = new Player({ scene: this.scene, world: this.world });
+    this.background = new Background({ scene: this.scene });
   }
 
   setLight() {
@@ -165,9 +156,6 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
     this.load();
     this.supportService.isLoadingEnd.pipe(delay(6000), take(1)).subscribe(res => {
       this.loading = false;
-      this.world = new WorldManager({ scene: this.scene });
-      this.player = new Player({ scene: this.scene, world: this.world });
-      this.background = new Background({ scene: this.scene });
       this.animate();
       this.main.nativeElement.style.display = 'block';
       this.audioService.start(this.audio?.nativeElement);
@@ -175,7 +163,7 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onRestart() {
-    this.world.restart();
+    this.world.destroy();
     this.maxScore = this.scoreService.restart();
     this.gameOver = false;
     this.player.gameOver = false;
@@ -216,6 +204,8 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.background.destroy();
+    this.onRestart();
     this.destroy$.next(null);
     this.destroy$.complete();
   }
