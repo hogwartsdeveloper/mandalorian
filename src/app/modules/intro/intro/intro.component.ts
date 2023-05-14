@@ -2,6 +2,8 @@ import {AfterViewInit, Component, ElementRef, HostListener, ViewChild} from '@an
 import {Router} from "@angular/router";
 import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader";
 import {ThreeWorldBase} from "../../../utils/three-world.base";
+import {SupportService} from "../../../services/support.service";
+import {delay, take} from "rxjs";
 
 @Component({
   selector: 'app-intro',
@@ -9,9 +11,12 @@ import {ThreeWorldBase} from "../../../utils/three-world.base";
   styleUrls: ['./intro.component.scss']
 })
 export class IntroComponent extends ThreeWorldBase implements AfterViewInit {
-  @ViewChild('container') container: ElementRef<HTMLCanvasElement>;
-
-  constructor(private router: Router) {
+  @ViewChild('main') main: ElementRef<HTMLDivElement>;
+  loading = true;
+  constructor(
+      private router: Router,
+      private supportService: SupportService
+  ) {
     super(0xfffae7);
   }
 
@@ -21,7 +26,15 @@ export class IntroComponent extends ThreeWorldBase implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.init(this.container?.nativeElement);
+    this.supportService.isLoadingEnd.pipe(delay(6000), take(1)).subscribe(() => {
+      this.loading = false;
+      this.main.nativeElement.style.display = 'block';
+    });
+
+    this.main.nativeElement.style.display = 'none';
+    const canvas = document.createElement('canvas');
+    this.main.nativeElement.appendChild(canvas);
+    this.init(canvas);
     this.camera.position.set(0, 0, 40);
     this.hemiLight.position.set( 0, 20, 0 );
     this.dirLight.position.set( 3, 10, 10 );

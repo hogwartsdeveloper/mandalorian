@@ -3,11 +3,12 @@ import * as THREE from "three";
 import {Background} from "../../../utils/background/background";
 import {WorldManager} from "../../../utils/world-manager";
 import {Player} from "../../../utils/player";
-import {Subject, takeUntil} from "rxjs";
+import {delay, Subject, take, takeUntil} from "rxjs";
 import {ScoreService} from "../../../services/score.service";
 import {LevelService} from "../../../services/level.service";
 import {pcss, pcssGetShadow, skyFragmentShader, skyVertexShader} from "../../../models/three.model";
 import {AudioService, AudioState} from "../../../services/audio.service";
+import {SupportService} from "../../../services/support.service";
 
 @Component({
   selector: 'app-game',
@@ -36,7 +37,6 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
   hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
   audioState: AudioState;
   audioStateEnum = AudioState;
-  startTimeout: ReturnType<typeof setInterval>;
   destroy$ = new Subject();
 
   @HostListener('window:resize', ['$event'])
@@ -50,7 +50,8 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
       private scoreService: ScoreService,
       private levelService: LevelService,
-      private audioService: AudioService
+      private audioService: AudioService,
+      private supportService: SupportService
   ) {
     this.maxScore = this.scoreService.getMaxScore();
     this.audioState = this.audioService.state;
@@ -167,12 +168,10 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
   onStart() {
     this.load();
 
-    clearTimeout(this.startTimeout);
-    this.startTimeout = setTimeout(() => {
+    this.supportService.isLoadingEnd.pipe(delay(6000), take(1)).subscribe(res => {
       this.loading = false;
       this.audioService.start(this.audio?.nativeElement);
-    }, 6000)
-
+    });
   }
 
   onRestart() {
@@ -219,7 +218,5 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next(null);
     this.destroy$.complete();
-
-    clearTimeout(this.startTimeout);
   }
 }
