@@ -26,7 +26,7 @@ export class IntroComponent extends ThreeWorldBase implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.supportService.isLoadingEnd.pipe(delay(6000), take(1)).subscribe(() => {
+    this.supportService.isLoadingEnd.pipe(delay(5000), take(1)).subscribe(() => {
       this.loading = false;
       this.main.nativeElement.style.display = 'block';
     });

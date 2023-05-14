@@ -63,13 +63,14 @@ export class LoadingComponent extends ThreeWorldBase implements AfterViewInit, O
       clearTimeout(this.animationPauseTime);
       this.animationPauseTime = setTimeout(() => {
         animationAction.paused = true;
-      }, 2900);
+      }, 1900);
 
       this.audio.nativeElement.volume = 0.19;
       this.audio.nativeElement.play().catch(() => console.log('user not interact'));
 
     }, (xhr) => {
-      if (xhr.loaded === 40305536) {
+      console.log(xhr)
+      if (xhr.loaded === 454508) {
         this.supportService.isLoadingEnd.next(true);
       }
     });

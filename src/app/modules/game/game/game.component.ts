@@ -6,7 +6,7 @@ import {Player} from "../../../utils/player";
 import {delay, Subject, take, takeUntil} from "rxjs";
 import {ScoreService} from "../../../services/score.service";
 import {LevelService} from "../../../services/level.service";
-import {pcss, pcssGetShadow, skyFragmentShader, skyVertexShader} from "../../../models/three.model";
+import {skyFragmentShader, skyVertexShader} from "../../../models/three.model";
 import {AudioService, AudioState} from "../../../services/audio.service";
 import {SupportService} from "../../../services/support.service";
 
@@ -154,7 +154,7 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
   onStart() {
     this.main.nativeElement.style.display = 'none';
     this.load();
-    this.supportService.isLoadingEnd.pipe(delay(6000), take(1)).subscribe(res => {
+    this.supportService.isLoadingEnd.pipe(delay(5000), take(1)).subscribe(() => {
       this.loading = false;
       this.animate();
       this.main.nativeElement.style.display = 'block';
