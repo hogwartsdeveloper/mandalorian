@@ -42,7 +42,7 @@ export class IntroComponent extends ThreeWorldBase implements AfterViewInit {
 
   override loadModel() {
     const loader = new GLTFLoader();
-    loader.load('/assets/models/mandalorian-intro2.glb', (glb) => {
+    loader.load('/assets/models/mandalorian-intro.glb', (glb) => {
       const model = glb.scene;
       model.scale.setScalar(0.0015);
       model.position.set(0, -28, -5)
