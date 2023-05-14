@@ -33,15 +33,23 @@ export class LoadingComponent extends ThreeWorldBase implements AfterViewInit, O
     this.camera.position.set(0, 0, 40);
     this.hemiLight.position.set( 10, 10, 10 );
     this.dirLight.position.set( 10, 10, 10 );
+
+    clearInterval(this.timeout)
+    this.timeout = setInterval(() => {
+      this.count++;
+      if (this.count === 100) {
+        clearInterval(this.timeout);
+      }
+    }, 30);
   }
 
   override loadModel() {
     const loader = new GLTFLoader();
-    loader.load('/assets/models/dark-saber2.glb', (glb) => {
+    loader.load('/assets/models/dark-saber.glb', (glb) => {
       const model = glb.scene;
       model.scale.setScalar(0.7);
       model.rotation.set(1.5, 0, 0);
-      model.position.set(5, 0, 0)
+      model.position.set(2.5, 0, 0);
       this.scene.add(model);
 
       model.traverse( function ( object ) {
@@ -56,14 +64,6 @@ export class LoadingComponent extends ThreeWorldBase implements AfterViewInit, O
       this.animationPauseTime = setTimeout(() => {
         animationAction.paused = true;
       }, 2900);
-
-      clearInterval(this.timeout)
-      this.timeout = setInterval(() => {
-        this.count++;
-        if (this.count === 100) {
-          clearInterval(this.timeout);
-        }
-      }, 30);
 
       this.audio.nativeElement.volume = 0.19;
       this.audio.nativeElement.play().catch(() => console.log('user not interact'));

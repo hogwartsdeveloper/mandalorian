@@ -37,7 +37,6 @@ export class ThreeWorldBase {
         this.control.enablePan = false;
         this.control.enableZoom = false;
 
-        this.loadModel();
         this.control.update();
 
         const animate = () => {
@@ -46,6 +45,7 @@ export class ThreeWorldBase {
             this.renderer.render(this.scene, this.camera);
         }
         animate();
+        this.loadModel();
     }
 
     loadModel() {}
