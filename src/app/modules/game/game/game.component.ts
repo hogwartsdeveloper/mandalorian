@@ -76,7 +76,6 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
     this.setLight();
     this.setGround();
     this.setSky()
-    this.animate();
   }
 
   init() {
@@ -103,10 +102,6 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.scene.background = new THREE.Color(0x808080);
     this.scene.fog = new THREE.FogExp2(0x89b2eb, 0.00125);
-
-    this.world = new WorldManager({ scene: this.scene });
-    this.player = new Player({ scene: this.scene, world: this.world });
-    this.background = new Background({ scene: this.scene });
   }
 
   setLight() {
@@ -166,10 +161,15 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onStart() {
+    this.main.nativeElement.style.display = 'none';
     this.load();
-
     this.supportService.isLoadingEnd.pipe(delay(6000), take(1)).subscribe(res => {
       this.loading = false;
+      this.world = new WorldManager({ scene: this.scene });
+      this.player = new Player({ scene: this.scene, world: this.world });
+      this.background = new Background({ scene: this.scene });
+      this.animate();
+      this.main.nativeElement.style.display = 'block';
       this.audioService.start(this.audio?.nativeElement);
     });
   }
@@ -188,7 +188,7 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
         this.previousTime = time;
       }
       this.step((time - this.previousTime) / 1000);
-      this.renderer.render(this.scene, this.camera);
+      this.renderer?.render(this.scene, this.camera);
       this.previousTime = time;
     }
 
