@@ -2,13 +2,8 @@ import {RouterModule, Routes} from "@angular/router";
 import { NgModule } from "@angular/core";
 
 const routes: Routes = [
-    { path: 'intro', loadChildren: () => import('./modules/intro/intro.module').then((m) => m.IntroModule)},
+    { path: '', loadChildren: () => import('./modules/intro/intro.module').then((m) => m.IntroModule)},
     { path: 'game', loadChildren: () => import('./modules/game/game.module').then((m) => m.GameModule) },
-    {
-        path: '',
-        redirectTo: 'intro',
-        pathMatch: 'full'
-    }
 ];
 
 @NgModule({
