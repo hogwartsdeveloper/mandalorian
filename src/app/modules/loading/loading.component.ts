@@ -69,7 +69,6 @@ export class LoadingComponent extends ThreeWorldBase implements AfterViewInit, O
       this.audio.nativeElement.play().catch(() => console.log('user not interact'));
 
     }, (xhr) => {
-      console.log(xhr)
       if (xhr.loaded === 454508) {
         this.supportService.isLoadingEnd.next(true);
       }

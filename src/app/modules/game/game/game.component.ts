@@ -154,7 +154,7 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
   onStart() {
     this.main.nativeElement.style.display = 'none';
     this.load();
-    this.supportService.isLoadingEnd.pipe(delay(5000), take(1)).subscribe(() => {
+    this.supportService.isLoadingEnd.pipe(delay(6000), take(1)).subscribe(() => {
       this.loading = false;
       this.animate();
       this.main.nativeElement.style.display = 'block';
