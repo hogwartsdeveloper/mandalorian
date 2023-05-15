@@ -91,7 +91,7 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
     this.scene.fog = new THREE.FogExp2(0x89b2eb, 0.00125);
 
     this.world = new WorldManager({ scene: this.scene });
-    this.player = new Player({ scene: this.scene, world: this.world });
+    this.player = new Player({ scene: this.scene, world: this.world }, this.supportService);
     this.background = new Background({ scene: this.scene });
   }
 

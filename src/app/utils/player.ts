@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import {FBXLoader} from "three/examples/jsm/loaders/FBXLoader";
 import {IParam} from "../models/utils.model";
+import {SupportService} from "../services/support.service";
 
 export class Player {
     private position = new THREE.Vector3(4.5, 0, 0);
@@ -19,7 +20,7 @@ export class Player {
     gameOver = false;
     keyTimeout: ReturnType<typeof setTimeout>
 
-    constructor(params: IParam) {
+    constructor(params: IParam, private supportService: SupportService) {
         this.params = params;
 
         this.loadModel();
@@ -55,13 +56,17 @@ export class Player {
                 const animationAction = this.mixer.clipAction(fbx.animations[0]);
                 this.animationActions.push(animationAction);
             })
+        }, (xhr) => {
+            if (xhr.loaded === 6098896) {
+                this.supportService.isLoadingEnd.next(true);
+            }
         });
     }
 
     initInput() {
         document.addEventListener('keydown', (e) => this.onKeyDown(e), false);
         document.addEventListener('keyup', (e) => this.onKeyUp(e), false);
-        document.addEventListener('click', (e) => {
+        document.addEventListener('click', () => {
             this.setAction(this.animationActions[1]);
             this.keys.space = true;
             this.setAction(this.animationActions[0]);

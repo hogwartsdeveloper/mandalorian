@@ -2,7 +2,6 @@ import {AfterViewInit, Component, ElementRef, HostListener, OnDestroy, ViewChild
 import * as THREE from 'three';
 import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader";
 import {ThreeWorldBase} from "../../utils/three-world.base";
-import {SupportService} from "../../services/support.service";
 
 @Component({
   selector: 'app-loading',
@@ -24,7 +23,7 @@ export class LoadingComponent extends ThreeWorldBase implements AfterViewInit, O
     this.resize();
   }
 
-  constructor(private supportService: SupportService) {
+  constructor() {
     super(0x1b1b1b);
   }
 
@@ -67,11 +66,6 @@ export class LoadingComponent extends ThreeWorldBase implements AfterViewInit, O
 
       this.audio.nativeElement.volume = 0.19;
       this.audio.nativeElement.play().catch(() => console.log('user not interact'));
-
-    }, (xhr) => {
-      if (xhr.loaded === 454508) {
-        this.supportService.isLoadingEnd.next(true);
-      }
     });
   }
 

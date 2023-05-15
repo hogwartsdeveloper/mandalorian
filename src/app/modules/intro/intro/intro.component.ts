@@ -52,6 +52,10 @@ export class IntroComponent extends ThreeWorldBase implements AfterViewInit {
       model.traverse( function ( object ) {
         object.castShadow = true;
       });
+    }, (xhr) => {
+      if (xhr.loaded === 146793) {
+        this.supportService.isLoadingEnd.next(true)
+      }
     });
   }
 
